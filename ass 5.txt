@@ -1,0 +1,742 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use aecitdb;
+Database changed
+mysql> create table EMPLOYEE(EMPNO int primary key check(length(EMPNO)=4),EMPNAME varchar(10),JOB varchar(9),MGR int check(length(MGR)=4),HIREDATE DATE,SAL int check(length(SAL)>=2 and length(SAL)<=7),COMM int check(length(COMM)>=2 and length(COMM)<=7),DEPTNO int check(length(DEPTNO)=2));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| EMPNO    | int         | NO   | PRI | NULL    |       |
+| EMPNAME  | varchar(10) | YES  |     | NULL    |       |
+| JOB      | varchar(9)  | YES  |     | NULL    |       |
+| MGR      | int         | YES  |     | NULL    |       |
+| HIREDATE | date        | YES  |     | NULL    |       |
+| SAL      | int         | YES  |     | NULL    |       |
+| COMM     | int         | YES  |     | NULL    |       |
+| DEPTNO   | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.04 sec)
+
+mysql>
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use aecitdb;
+Database changed
+mysql> create table DEPARTMENT (DEPTNO int check(lenght(DEPTNO)=2),DNAME varchar(14) not null,LOC varchar(13) not null);
+ERROR 3814 (HY000): An expression of a check constraint 'department_chk_1' contains disallowed function: `lenght`.
+mysql> create table DEPARTMENT (DEPTNO int check(length(DEPTNO)=2),DNAME varchar(14) not null,LOC varchar(13) not null);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> use tables;
+ERROR 1049 (42000): Unknown database 'tables'
+mysql> show tables;
++-------------------+
+| Tables_in_aecitdb |
++-------------------+
+| department        |
+| dummy_item_1      |
+| employee          |
+| person            |
+| suraj             |
+| tempperson        |
++-------------------+
+6 rows in set (0.03 sec)
+
+mysql> desc department;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| DEPTNO | int         | YES  |     | NULL    |       |
+| DNAME  | varchar(14) | NO   |     | NULL    |       |
+| LOC    | varchar(13) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> alter table department add primary key(DEPTNO);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc department;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| DEPTNO | int         | NO   | PRI | NULL    |       |
+| DNAME  | varchar(14) | NO   |     | NULL    |       |
+| LOC    | varchar(13) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table employee add foreign key(DEPTNO) references department(DEPTNO);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| EMPNO    | int         | NO   | PRI | NULL    |       |
+| EMPNAME  | varchar(10) | YES  |     | NULL    |       |
+| JOB      | varchar(9)  | YES  |     | NULL    |       |
+| MGR      | int         | YES  |     | NULL    |       |
+| HIREDATE | date        | YES  |     | NULL    |       |
+| SAL      | int         | YES  |     | NULL    |       |
+| COMM     | int         | YES  |     | NULL    |       |
+| DEPTNO   | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> desc department;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| DEPTNO | int         | NO   | PRI | NULL    |       |
+| DNAME  | varchar(14) | NO   |     | NULL    |       |
+| LOC    | varchar(13) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into department
+    -> values
+    -> (10,'HRD','Houston'),
+    -> (20,'RESEARCH','Dallas'),
+    -> (30,'SALES','Chicago'),
+    -> (40,'OPERATION','Boston');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from department;
++--------+-----------+---------+
+| DEPTNO | DNAME     | LOC     |
++--------+-----------+---------+
+|     10 | HRD       | Houston |
+|     20 | RESEARCH  | Dallas  |
+|     30 | SALES     | Chicago |
+|     40 | OPERATION | Boston  |
++--------+-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> insert into department
+    -> values
+    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,null,20);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into department
+    -> values
+    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,' ',20);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into employee
+    -> values
+    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,' ',20);
+ERROR 1366 (HY000): Incorrect integer value: ' ' for column 'COMM' at row 1
+mysql> insert into employee
+    -> values
+    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,null,20);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select * from employee;
++-------+---------+-------+------+------------+------+------+--------+
+| EMPNO | EMPNAME | JOB   | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+---------+-------+------+------------+------+------+--------+
+|  7369 | Smith   | Clerk | 7920 | 1989-12-17 | 1000 | NULL |     20 |
++-------+---------+-------+------+------------+------+------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,' ',20),
+    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,' ',20);
+ERROR 1366 (HY000): Incorrect integer value: ' ' for column 'COMM' at row 1
+mysql> insert into employee
+    -> values
+    -> (7499,'Allen','Salesman',7698,'1989/02/20',1600,300,30);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30),
+    -> (7566,'Jones','Manager',7839,'1989/03/02',2975,null,20),
+    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30),
+    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30),
+    -> (7698,'Blake','Manager',7839,'1989/05/01',2850,null,30),
+    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10),
+    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10),
+    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10);
+ERROR 1062 (23000): Duplicate entry '7654' for key 'employee.PRIMARY'
+mysql> insert into employee
+    -> values
+    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30),
+    -> (7566,'Jones','Manager',7839,'1989/03/02',2975,null,20),
+    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30),
+    -> (7698,'Blake','Manager',7839,'1989/05/01',2850,null,30),
+    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10),
+    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20),
+    -> (7839,'King','President',null,'1989/11/17',5000,null,10),
+    -> (7844,'Turn','Salesman',7698,'1989/09/08',1500,0,30),
+    -> (7876,'Adam','Clerk',7788,'1987/05/23',1100,null,20),
+    -> (7900,'James','Clerk',7689,'1989/12/03',950,null,30),
+    -> (7902,'Ford','Analyst',7566,'1989/12/03',3000,null,20),
+    -> (7934,'Mile','Clerk',7782,'1986/01/23',1300,null,10);
+ERROR 3819 (HY000): Check constraint 'employee_chk_4' is violated.
+mysql> insert into employee
+    -> values
+    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30),
+    -> (7566,'Jones','Manager',7839,'1989/03/02',2975,null,20),
+    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30),
+    -> (7698,'Blake','Manager',7839,'1989/05/01',2850,null,30),
+    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10),
+    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20),
+    -> (7839,'King','President',null,'1989/11/17',5000,null,10),
+    -> (7844,'Turn','Salesman',7698,'1989/09/08',1500,0,30),
+    -> (7876,'Adam','Clerk',7788,'1987/05/23',1100,null,20),
+    -> (7900,'James','Clerk',7689,'1989/12/03',0950,null,30),
+    -> (7834,'King','President',null,'1989/11/17',5000,null,10);
+ERROR 3819 (HY000): Check constraint 'employee_chk_4' is violated.
+mysql> insert into employee
+    -> values
+    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7566,'Jones','Manager',7839,'1989/03/02',2975,null,20);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7698,'Blake','Manager',7839,'1989/05/01',2850,null,30);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20),
+    -> (7839,'King','President',null,'1989/11/17',5000,null,10),
+    -> (7844,'Turn','Salesman',7698,'1989/09/08',1500,0,30);
+ERROR 3819 (HY000): Check constraint 'employee_chk_4' is violated.
+mysql> insert into employee
+    -> values
+    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20),
+    -> (7839,'King','President',null,'1989/11/17',5000,null,10);
+Query OK, 2 rows affected, 2 warnings (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 2
+
+mysql> insert into employee
+    -> values
+    -> (7844,'Turn','Salesman',7698,'1989/09/08',1500,00,30);
+ERROR 3819 (HY000): Check constraint 'employee_chk_4' is violated.
+mysql> insert into employee
+    -> values
+    -> (7844,'Turn','Salesman',7698,'1989/09/08',1500,0000,30);
+ERROR 3819 (HY000): Check constraint 'employee_chk_4' is violated.
+mysql> insert into employee
+    -> values
+    -> (7876,'Adam','Clerk',7788,'1987/05/23',1100,null,20);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7900,'James','Clerk',7689,'1989/12/03',0950,null,30),
+    -> (7902,'Ford','Analyst',7566,'1989/12/03',3000,null,20);
+Query OK, 2 rows affected, 2 warnings (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 2
+
+mysql> insert into employee
+    -> values
+    -> (7934,'Mile','Clerk',7782,'1986/01/23',1300,null,10);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select * from employee;
++-------+---------+-----------+------+------------+------+------+--------+
+| EMPNO | EMPNAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+---------+-----------+------+------------+------+------+--------+
+|  7369 | Smith   | Clerk     | 7920 | 1989-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen   | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward    | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones   | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti   | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake   | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark   | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong    | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King    | President | NULL | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam    | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James   | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford    | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile    | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+---------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select EMPNAME,DEPTNO,DNAME from employee,department ;
+ERROR 1052 (23000): Column 'DEPTNO' in field list is ambiguous
+mysql> select EMPNAME,department.DEPTNO,DNAME from employee,department;
++---------+--------+-----------+
+| EMPNAME | DEPTNO | DNAME     |
++---------+--------+-----------+
+| Smith   |     40 | OPERATION |
+| Smith   |     30 | SALES     |
+| Smith   |     20 | RESEARCH  |
+| Smith   |     10 | HRD       |
+| Allen   |     40 | OPERATION |
+| Allen   |     30 | SALES     |
+| Allen   |     20 | RESEARCH  |
+| Allen   |     10 | HRD       |
+| Ward    |     40 | OPERATION |
+| Ward    |     30 | SALES     |
+| Ward    |     20 | RESEARCH  |
+| Ward    |     10 | HRD       |
+| Jones   |     40 | OPERATION |
+| Jones   |     30 | SALES     |
+| Jones   |     20 | RESEARCH  |
+| Jones   |     10 | HRD       |
+| Marti   |     40 | OPERATION |
+| Marti   |     30 | SALES     |
+| Marti   |     20 | RESEARCH  |
+| Marti   |     10 | HRD       |
+| Blake   |     40 | OPERATION |
+| Blake   |     30 | SALES     |
+| Blake   |     20 | RESEARCH  |
+| Blake   |     10 | HRD       |
+| Clark   |     40 | OPERATION |
+| Clark   |     30 | SALES     |
+| Clark   |     20 | RESEARCH  |
+| Clark   |     10 | HRD       |
+| Wong    |     40 | OPERATION |
+| Wong    |     30 | SALES     |
+| Wong    |     20 | RESEARCH  |
+| Wong    |     10 | HRD       |
+| King    |     40 | OPERATION |
+| King    |     30 | SALES     |
+| King    |     20 | RESEARCH  |
+| King    |     10 | HRD       |
+| Adam    |     40 | OPERATION |
+| Adam    |     30 | SALES     |
+| Adam    |     20 | RESEARCH  |
+| Adam    |     10 | HRD       |
+| James   |     40 | OPERATION |
+| James   |     30 | SALES     |
+| James   |     20 | RESEARCH  |
+| James   |     10 | HRD       |
+| Ford    |     40 | OPERATION |
+| Ford    |     30 | SALES     |
+| Ford    |     20 | RESEARCH  |
+| Ford    |     10 | HRD       |
+| Mile    |     40 | OPERATION |
+| Mile    |     30 | SALES     |
+| Mile    |     20 | RESEARCH  |
+| Mile    |     10 | HRD       |
++---------+--------+-----------+
+52 rows in set (0.00 sec)
+
+mysql> select EMPNAME,department.DEPTNO,DNAME from employee,department where  department.DEPTNO=employee.DEPTNO;
++---------+--------+----------+
+| EMPNAME | DEPTNO | DNAME    |
++---------+--------+----------+
+| Clark   |     10 | HRD      |
+| King    |     10 | HRD      |
+| Mile    |     10 | HRD      |
+| Smith   |     20 | RESEARCH |
+| Jones   |     20 | RESEARCH |
+| Wong    |     20 | RESEARCH |
+| Adam    |     20 | RESEARCH |
+| Ford    |     20 | RESEARCH |
+| Allen   |     30 | SALES    |
+| Ward    |     30 | SALES    |
+| Marti   |     30 | SALES    |
+| Blake   |     30 | SALES    |
+| James   |     30 | SALES    |
++---------+--------+----------+
+13 rows in set (0.00 sec)
+
+mysql> select JOB,LOC from employee,department where department.DEPTNO=30;
++-----------+---------+
+| JOB       | LOC     |
++-----------+---------+
+| Clerk     | Chicago |
+| Salesman  | Chicago |
+| Salesman  | Chicago |
+| Manager   | Chicago |
+| Salesman  | Chicago |
+| Manager   | Chicago |
+| Manager   | Chicago |
+| Analyst   | Chicago |
+| President | Chicago |
+| Clerk     | Chicago |
+| Clerk     | Chicago |
+| Analyst   | Chicago |
+| Clerk     | Chicago |
++-----------+---------+
+13 rows in set (0.00 sec)
+
+mysql> select JOB,LOC from employee,department where employee.DEPTNO=30;
++----------+---------+
+| JOB      | LOC     |
++----------+---------+
+| Salesman | Houston |
+| Salesman | Houston |
+| Salesman | Houston |
+| Manager  | Houston |
+| Clerk    | Houston |
+| Salesman | Dallas  |
+| Salesman | Dallas  |
+| Salesman | Dallas  |
+| Manager  | Dallas  |
+| Clerk    | Dallas  |
+| Salesman | Chicago |
+| Salesman | Chicago |
+| Salesman | Chicago |
+| Manager  | Chicago |
+| Clerk    | Chicago |
+| Salesman | Boston  |
+| Salesman | Boston  |
+| Salesman | Boston  |
+| Manager  | Boston  |
+| Clerk    | Boston  |
++----------+---------+
+20 rows in set (0.00 sec)
+
+mysql> select JOB,LOC from employee,department where  department.DEPTNO=employee.DEPTNO and department.DEPTNO=30;
++----------+---------+
+| JOB      | LOC     |
++----------+---------+
+| Salesman | Chicago |
+| Salesman | Chicago |
+| Salesman | Chicago |
+| Manager  | Chicago |
+| Clerk    | Chicago |
++----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=employee.DEPTNO and employee.COMM <> null;
+Empty set (0.01 sec)
+
+mysql> select EMPNAME,DNAME,LOC from employee,department where   employee.COMM <> null;
+Empty set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC from employee,department where   employee.COMM = null;
+Empty set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC from employee,department where   employee.COMM = not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null' at line 1
+mysql> select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=employee.DEPTNO and employee.COMM <> null;
+Empty set (0.00 sec)
+
+mysql> select employee.EMPNAME,department.DNAME,department.LOC from employee,department where employee.COMM <> null;
+Empty set (0.00 sec)
+
+mysql> select employee.EMPNAME,department.DNAME,department.LOC from employee,department where employee.COMM=300;
++---------+-----------+---------+
+| EMPNAME | DNAME     | LOC     |
++---------+-----------+---------+
+| Allen   | HRD       | Houston |
+| Allen   | RESEARCH  | Dallas  |
+| Allen   | SALES     | Chicago |
+| Allen   | OPERATION | Boston  |
++---------+-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=employee.DEPTNO and employee.COMM=300;
++---------+-------+---------+
+| EMPNAME | DNAME | LOC     |
++---------+-------+---------+
+| Allen   | SALES | Chicago |
++---------+-------+---------+
+1 row in set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=employee.DEPTNO and employee.COMM= null;
+Empty set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC,employee.DEPTNO,department.DEPTNO from employee,department where  department.DEPTNO=employee.DEPTNO and employee.COMM= null;
+Empty set (0.00 sec)
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| EMPNO    | int         | NO   | PRI | NULL    |       |
+| EMPNAME  | varchar(10) | YES  |     | NULL    |       |
+| JOB      | varchar(9)  | YES  |     | NULL    |       |
+| MGR      | int         | YES  |     | NULL    |       |
+| HIREDATE | date        | YES  |     | NULL    |       |
+| SAL      | int         | YES  |     | NULL    |       |
+| COMM     | int         | YES  |     | NULL    |       |
+| DEPTNO   | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select EMPNAME,DNAME from employee,department where EMPNAME like '%A%';
++---------+-----------+
+| EMPNAME | DNAME     |
++---------+-----------+
+| James   | HRD       |
+| Adam    | HRD       |
+| Clark   | HRD       |
+| Blake   | HRD       |
+| Marti   | HRD       |
+| Ward    | HRD       |
+| Allen   | HRD       |
+| James   | RESEARCH  |
+| Adam    | RESEARCH  |
+| Clark   | RESEARCH  |
+| Blake   | RESEARCH  |
+| Marti   | RESEARCH  |
+| Ward    | RESEARCH  |
+| Allen   | RESEARCH  |
+| James   | SALES     |
+| Adam    | SALES     |
+| Clark   | SALES     |
+| Blake   | SALES     |
+| Marti   | SALES     |
+| Ward    | SALES     |
+| Allen   | SALES     |
+| James   | OPERATION |
+| Adam    | OPERATION |
+| Clark   | OPERATION |
+| Blake   | OPERATION |
+| Marti   | OPERATION |
+| Ward    | OPERATION |
+| Allen   | OPERATION |
++---------+-----------+
+28 rows in set (0.01 sec)
+
+mysql> select EMPNAME,DNAME from employee,department where EMPNAME like '%A%' and department.DEPTNO=employee.DEPTNO;
++---------+----------+
+| EMPNAME | DNAME    |
++---------+----------+
+| Clark   | HRD      |
+| Adam    | RESEARCH |
+| Allen   | SALES    |
+| Ward    | SALES    |
+| Marti   | SALES    |
+| Blake   | SALES    |
+| James   | SALES    |
++---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select EMPNAME,DNAME from department,employee where EMPNAME like '%A%' and department.DEPTNO=employee.DEPTNO;
++---------+----------+
+| EMPNAME | DNAME    |
++---------+----------+
+| Clark   | HRD      |
+| Adam    | RESEARCH |
+| Allen   | SALES    |
+| Ward    | SALES    |
+| Marti   | SALES    |
+| Blake   | SALES    |
+| James   | SALES    |
++---------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC,employee.DEPTNO,department.DEPTNO from department,employee where  department.DEPTNO=employee.DEPTNO and employee.COMM= null;
+Empty set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC,employee.DEPTNO,department.DEPTNO from department,employee where  department.DEPTNO=employee.DEPTNO;
++---------+----------+---------+--------+--------+
+| EMPNAME | DNAME    | LOC     | DEPTNO | DEPTNO |
++---------+----------+---------+--------+--------+
+| Clark   | HRD      | Houston |     10 |     10 |
+| King    | HRD      | Houston |     10 |     10 |
+| Mile    | HRD      | Houston |     10 |     10 |
+| Smith   | RESEARCH | Dallas  |     20 |     20 |
+| Jones   | RESEARCH | Dallas  |     20 |     20 |
+| Wong    | RESEARCH | Dallas  |     20 |     20 |
+| Adam    | RESEARCH | Dallas  |     20 |     20 |
+| Ford    | RESEARCH | Dallas  |     20 |     20 |
+| Allen   | SALES    | Chicago |     30 |     30 |
+| Ward    | SALES    | Chicago |     30 |     30 |
+| Marti   | SALES    | Chicago |     30 |     30 |
+| Blake   | SALES    | Chicago |     30 |     30 |
+| James   | SALES    | Chicago |     30 |     30 |
++---------+----------+---------+--------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC,employee.DEPTNO,department.DEPTNO from department,employee;
++---------+-----------+---------+--------+--------+
+| EMPNAME | DNAME     | LOC     | DEPTNO | DEPTNO |
++---------+-----------+---------+--------+--------+
+| Smith   | OPERATION | Boston  |     20 |     40 |
+| Smith   | SALES     | Chicago |     20 |     30 |
+| Smith   | RESEARCH  | Dallas  |     20 |     20 |
+| Smith   | HRD       | Houston |     20 |     10 |
+| Allen   | OPERATION | Boston  |     30 |     40 |
+| Allen   | SALES     | Chicago |     30 |     30 |
+| Allen   | RESEARCH  | Dallas  |     30 |     20 |
+| Allen   | HRD       | Houston |     30 |     10 |
+| Ward    | OPERATION | Boston  |     30 |     40 |
+| Ward    | SALES     | Chicago |     30 |     30 |
+| Ward    | RESEARCH  | Dallas  |     30 |     20 |
+| Ward    | HRD       | Houston |     30 |     10 |
+| Jones   | OPERATION | Boston  |     20 |     40 |
+| Jones   | SALES     | Chicago |     20 |     30 |
+| Jones   | RESEARCH  | Dallas  |     20 |     20 |
+| Jones   | HRD       | Houston |     20 |     10 |
+| Marti   | OPERATION | Boston  |     30 |     40 |
+| Marti   | SALES     | Chicago |     30 |     30 |
+| Marti   | RESEARCH  | Dallas  |     30 |     20 |
+| Marti   | HRD       | Houston |     30 |     10 |
+| Blake   | OPERATION | Boston  |     30 |     40 |
+| Blake   | SALES     | Chicago |     30 |     30 |
+| Blake   | RESEARCH  | Dallas  |     30 |     20 |
+| Blake   | HRD       | Houston |     30 |     10 |
+| Clark   | OPERATION | Boston  |     10 |     40 |
+| Clark   | SALES     | Chicago |     10 |     30 |
+| Clark   | RESEARCH  | Dallas  |     10 |     20 |
+| Clark   | HRD       | Houston |     10 |     10 |
+| Wong    | OPERATION | Boston  |     20 |     40 |
+| Wong    | SALES     | Chicago |     20 |     30 |
+| Wong    | RESEARCH  | Dallas  |     20 |     20 |
+| Wong    | HRD       | Houston |     20 |     10 |
+| King    | OPERATION | Boston  |     10 |     40 |
+| King    | SALES     | Chicago |     10 |     30 |
+| King    | RESEARCH  | Dallas  |     10 |     20 |
+| King    | HRD       | Houston |     10 |     10 |
+| Adam    | OPERATION | Boston  |     20 |     40 |
+| Adam    | SALES     | Chicago |     20 |     30 |
+| Adam    | RESEARCH  | Dallas  |     20 |     20 |
+| Adam    | HRD       | Houston |     20 |     10 |
+| James   | OPERATION | Boston  |     30 |     40 |
+| James   | SALES     | Chicago |     30 |     30 |
+| James   | RESEARCH  | Dallas  |     30 |     20 |
+| James   | HRD       | Houston |     30 |     10 |
+| Ford    | OPERATION | Boston  |     20 |     40 |
+| Ford    | SALES     | Chicago |     20 |     30 |
+| Ford    | RESEARCH  | Dallas  |     20 |     20 |
+| Ford    | HRD       | Houston |     20 |     10 |
+| Mile    | OPERATION | Boston  |     10 |     40 |
+| Mile    | SALES     | Chicago |     10 |     30 |
+| Mile    | RESEARCH  | Dallas  |     10 |     20 |
+| Mile    | HRD       | Houston |     10 |     10 |
++---------+-----------+---------+--------+--------+
+52 rows in set (0.00 sec)
+
+mysql> select JOB,LOC from department,employee where department.DEPTNO=30;
++-----------+---------+
+| JOB       | LOC     |
++-----------+---------+
+| Clerk     | Chicago |
+| Salesman  | Chicago |
+| Salesman  | Chicago |
+| Manager   | Chicago |
+| Salesman  | Chicago |
+| Manager   | Chicago |
+| Manager   | Chicago |
+| Analyst   | Chicago |
+| President | Chicago |
+| Clerk     | Chicago |
+| Clerk     | Chicago |
+| Analyst   | Chicago |
+| Clerk     | Chicago |
++-----------+---------+
+13 rows in set (0.00 sec)
+
+mysql> select JOB,LOC from department,employee where department.DEPTNO=30 and department.DEPTNO=employee.DEPTNO;
++----------+---------+
+| JOB      | LOC     |
++----------+---------+
+| Salesman | Chicago |
+| Salesman | Chicago |
+| Salesman | Chicago |
+| Manager  | Chicago |
+| Clerk    | Chicago |
++----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=employee.DEPTNO and COMM <> null;
+Empty set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC from employee,department where   COMM <> null;
+Empty set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC from department,employee where   COMM <> null;
+Empty set (0.00 sec)
+
+mysql> select EMPNAME from employee where   COMM <> null;
+Empty set (0.00 sec)
+
+mysql> select e.EMPNAME,d.DNAME,d.LOC
+    -> from employee e
+    -> join
+    -> department d on e.DEPTNO=D.DEPTNO
+    -> where e.COMM is not null;
++---------+-------+---------+
+| EMPNAME | DNAME | LOC     |
++---------+-------+---------+
+| Allen   | SALES | Chicago |
+| Ward    | SALES | Chicago |
+| Marti   | SALES | Chicago |
++---------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC
+    -> from employee,department
+    -> where COMM is not null;
++---------+-----------+---------+
+| EMPNAME | DNAME     | LOC     |
++---------+-----------+---------+
+| Allen   | OPERATION | Boston  |
+| Allen   | SALES     | Chicago |
+| Allen   | RESEARCH  | Dallas  |
+| Allen   | HRD       | Houston |
+| Ward    | OPERATION | Boston  |
+| Ward    | SALES     | Chicago |
+| Ward    | RESEARCH  | Dallas  |
+| Ward    | HRD       | Houston |
+| Marti   | OPERATION | Boston  |
+| Marti   | SALES     | Chicago |
+| Marti   | RESEARCH  | Dallas  |
+| Marti   | HRD       | Houston |
++---------+-----------+---------+
+12 rows in set (0.00 sec)
+
+mysql> select EMPNAME,DNAME,LOC
+    -> from employee,department
+    -> where employee.DEPTNO=department.DEPTNO COMM is not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'COMM is not null' at line 3
+mysql> select EMPNAME,DNAME,LOC
+    -> from employee,department
+    -> select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=employee.DEPTNO and COMM <> null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=emplo' at line 3
+mysql> select EMPNAME,DNAME,LOC
+    -> from employee,department
+    -> where employee.DEPTNO=department.DEPTNO and COMM is not null;
++---------+-------+---------+
+| EMPNAME | DNAME | LOC     |
++---------+-------+---------+
+| Allen   | SALES | Chicago |
+| Ward    | SALES | Chicago |
+| Marti   | SALES | Chicago |
++---------+-------+---------+
+3 rows in set (0.00 sec)
+
+mysql>

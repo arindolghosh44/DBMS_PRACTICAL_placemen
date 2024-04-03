@@ -1,0 +1,596 @@
+
+mysql> select count(EMPNO),avg(SAL)
+    -> from employee
+    -> where employee.DEPTNO=20;
++--------------+-----------+
+| count(EMPNO) | avg(SAL)  |
++--------------+-----------+
+|            5 | 2215.0000 |
++--------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> select e.EMPNAME,e.SAL,e.sal*1.1
+    -> from employee e
+    -> ;
++---------+------+-----------+
+| EMPNAME | SAL  | e.sal*1.1 |
++---------+------+-----------+
+| Smith   | 1000 |    1100.0 |
+| Allen   | 1600 |    1760.0 |
+| Ward    | 1250 |    1375.0 |
+| Jones   | 2975 |    3272.5 |
+| Marti   | 1250 |    1375.0 |
+| Blake   | 2850 |    3135.0 |
+| Clark   | 2450 |    2695.0 |
+| Wong    | 3000 |    3300.0 |
+| King    | 5000 |    5500.0 |
+| Adam    | 1100 |    1210.0 |
+| James   |  950 |    1045.0 |
+| Ford    | 3000 |    3300.0 |
+| Mile    | 1300 |    1430.0 |
++---------+------+-----------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME as NAME,e.SAL as salary,e.sal*1.1 as PF
+    -> from employee e;
++-------+--------+--------+
+| NAME  | salary | PF     |
++-------+--------+--------+
+| Smith |   1000 | 1100.0 |
+| Allen |   1600 | 1760.0 |
+| Ward  |   1250 | 1375.0 |
+| Jones |   2975 | 3272.5 |
+| Marti |   1250 | 1375.0 |
+| Blake |   2850 | 3135.0 |
+| Clark |   2450 | 2695.0 |
+| Wong  |   3000 | 3300.0 |
+| King  |   5000 | 5500.0 |
+| Adam  |   1100 | 1210.0 |
+| James |    950 | 1045.0 |
+| Ford  |   3000 | 3300.0 |
+| Mile  |   1300 | 1430.0 |
++-------+--------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME as NAME,e.SAL as salary,e.sal*1.1 as PFSALARY,e.sal*0.1 as PF
+    -> from employee e;
++-------+--------+----------+-------+
+| NAME  | salary | PFSALARY | PF    |
++-------+--------+----------+-------+
+| Smith |   1000 |   1100.0 | 100.0 |
+| Allen |   1600 |   1760.0 | 160.0 |
+| Ward  |   1250 |   1375.0 | 125.0 |
+| Jones |   2975 |   3272.5 | 297.5 |
+| Marti |   1250 |   1375.0 | 125.0 |
+| Blake |   2850 |   3135.0 | 285.0 |
+| Clark |   2450 |   2695.0 | 245.0 |
+| Wong  |   3000 |   3300.0 | 300.0 |
+| King  |   5000 |   5500.0 | 500.0 |
+| Adam  |   1100 |   1210.0 | 110.0 |
+| James |    950 |   1045.0 |  95.0 |
+| Ford  |   3000 |   3300.0 | 300.0 |
+| Mile  |   1300 |   1430.0 | 130.0 |
++-------+--------+----------+-------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.HIREDATE-min(e.HIREDATE)>=2;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where (e.HIREDATE-min(e.HIREDATE))>=2;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where HIREDATE<DATEADD(HI;EDATE)>=2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'EDATE)>=2' at line 1
+mysql> select HIREDATE
+    -> ;
+ERROR 1054 (42S22): Unknown column 'HIREDATE' in 'field list'
+mysql> select min(HIREDATE)
+    -> from employee;
++---------------+
+| min(HIREDATE) |
++---------------+
+| 1986-01-23    |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where HIREDATE>=(select min(HIREDATE) from employee);
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Allen   |
+| Ward    |
+| Jones   |
+| Marti   |
+| Blake   |
+| Clark   |
+| Wong    |
+| King    |
+| Adam    |
+| James   |
+| Ford    |
+| Mile    |
++---------+
+13 rows in set (0.01 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where (HIREDATE-(select min(HIREDATE) from employee))>=2;
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Allen   |
+| Ward    |
+| Jones   |
+| Marti   |
+| Blake   |
+| Clark   |
+| Wong    |
+| King    |
+| Adam    |
+| James   |
+| Ford    |
++---------+
+12 rows in set (0.01 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where (HIREDATE-(select min(HIREDATE) from employee))>2;
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Allen   |
+| Ward    |
+| Jones   |
+| Marti   |
+| Blake   |
+| Clark   |
+| Wong    |
+| King    |
+| Adam    |
+| James   |
+| Ford    |
++---------+
+12 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where ((HIREDATE-(select min(HIREDATE) from employee))>2);
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Allen   |
+| Ward    |
+| Jones   |
+| Marti   |
+| Blake   |
+| Clark   |
+| Wong    |
+| King    |
+| Adam    |
+| James   |
+| Ford    |
++---------+
+12 rows in set (0.37 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where ((e.HIREDATE-(select min(HIREDATE) from employee))>=2);
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Allen   |
+| Ward    |
+| Jones   |
+| Marti   |
+| Blake   |
+| Clark   |
+| Wong    |
+| King    |
+| Adam    |
+| James   |
+| Ford    |
++---------+
+12 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where ((e.HIREDATE-(select min(e.HIREDATE) ))>=2);
+Empty set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where (e.HIREDATE- min(e.HIREDATE))>=2;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> rename(t1,((select HIREDATE from employee) minus (select HIREDATE from employee where HIREDATE=min(HIREDATE)));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(t1,((select HIREDATE from employee) minus (select HIREDATE from employee where ' at line 1
+mysql> select EMPNAME
+    -> from employee
+    -> where HIREDATE<DATEADD(year,-2,GETDATE());
+ERROR 1305 (42000): FUNCTION aecitdb.DATEADD does not exist
+mysql> select EMPNAME
+    -> from employee
+    -> where HIREDATE<HIREDATE(year,-2,GETDATE());
+ERROR 1305 (42000): FUNCTION aecitdb.HIREDATE does not exist
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.HIREDATE>=(min(HIREDATE)+2);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.HIREDATE>=2;
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Allen   |
+| Ward    |
+| Jones   |
+| Marti   |
+| Blake   |
+| Clark   |
+| Wong    |
+| King    |
+| Adam    |
+| James   |
+| Ford    |
+| Mile    |
++---------+
+13 rows in set, 1 warning (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.HIREDATE>=2 and e.HIREDATE>min(e.HIREDATE);
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.HIREDATE>=(min(HIREDATE)+2) group by employee;
+ERROR 1111 (HY000): Invalid use of group function
+mysql>
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use aecitdb;
+Database changed
+mysql> select * from
+    -> employee
+    -> order by SAL asc;
++-------+---------+-----------+------+------------+------+------+--------+
+| EMPNO | EMPNAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+---------+-----------+------+------------+------+------+--------+
+|  7900 | James   | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7369 | Smith   | Clerk     | 7902 | 1989-12-17 | 1000 | NULL |     20 |
+|  7876 | Adam    | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7521 | Ward    | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7654 | Marti   | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7934 | Mile    | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
+|  7499 | Allen   | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7782 | Clark   | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7698 | Blake   | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7566 | Jones   | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7788 | Wong    | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7902 | Ford    | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7839 | King    | President | 7876 | 1989-11-17 | 5000 | NULL |     10 |
++-------+---------+-----------+------+------------+------+------+--------+
+13 rows in set (0.01 sec)
+
+mysql> select * from
+    -> employee
+    -> employee;
++-------+---------+-----------+------+------------+------+------+--------+
+| EMPNO | EMPNAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+---------+-----------+------+------------+------+------+--------+
+|  7369 | Smith   | Clerk     | 7902 | 1989-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen   | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward    | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones   | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti   | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake   | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark   | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong    | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King    | President | 7876 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam    | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James   | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford    | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile    | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+---------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME,e.HIREDATE
+    -> from employee e
+    -> order by e.HIREDATE desc;
++---------+------------+
+| EMPNAME | HIREDATE   |
++---------+------------+
+| Smith   | 1989-12-17 |
+| James   | 1989-12-03 |
+| Ford    | 1989-12-03 |
+| King    | 1989-11-17 |
+| Marti   | 1989-09-28 |
+| Clark   | 1989-06-09 |
+| Blake   | 1989-05-01 |
+| Jones   | 1989-03-02 |
+| Ward    | 1989-02-22 |
+| Allen   | 1989-02-20 |
+| Adam    | 1987-05-23 |
+| Wong    | 1987-04-19 |
+| Mile    | 1986-01-23 |
++---------+------------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME,e.SAL as salary,e.SAL*1.1 as PF,e.SAL*1.5 as HRA,e.SAL*1.3 as DA
+    -> from employee e
+    -> order by ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql> select e.EMPNAME,e.SAL as salary,e.SAL*1.1 as PF,e.SAL*1.5 as HRA,e.SAL*1.3 as DA,sum(SAL,PF,HRA,DA) as gross
+    -> from employee e
+    -> order by  gross;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',PF,HRA,DA) as gross
+from employee e
+order by  gross' at line 1
+mysql> select e.EMPNAME,e.SAL as salary,e.SAL*1.1 as PF,e.SAL*1.5 as HRA,e.SAL*1.3 as DA,sum(SAL,e.sal*0.5,e.sal*0.3,e.sal*0.1) as gross
+    -> from employee e
+    -> order by sum(sal,e.sal*0.5,e.sal*0.3,e.sal*0.1) asc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',e.sal*0.5,e.sal*0.3,e.sal*0.1) as gross
+from employee e
+order by sum(sal,e.sal*' at line 1
+mysql> select e.EMPNAME,e.SAL as salary,e.SAL*1.1 as PF,e.SAL*1.5 as HRA,e.SAL*1.3 as DA,sum(SAL,e.sal*0.5,e.sal*0.3,e.sal*0.1) as gross
+    -> from employee e
+    -> order by gross asc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',e.sal*0.5,e.sal*0.3,e.sal*0.1) as gross
+from employee e
+order by gross asc' at line 1
+mysql> select e.EMPNAME,e.SAL as salary,e.SAL*1.1 as PF,e.SAL*1.5 as HRA,e.SAL*1.3 as DA,e.sal+(e.sal*0.1)+(e.sal*0.3)+(e.sal*0.5)as Gross
+    -> from employee e
+    -> order by Gross asc;
++---------+--------+--------+--------+--------+--------+
+| EMPNAME | salary | PF     | HRA    | DA     | Gross  |
++---------+--------+--------+--------+--------+--------+
+| James   |    950 | 1045.0 | 1425.0 | 1235.0 | 1805.0 |
+| Smith   |   1000 | 1100.0 | 1500.0 | 1300.0 | 1900.0 |
+| Adam    |   1100 | 1210.0 | 1650.0 | 1430.0 | 2090.0 |
+| Ward    |   1250 | 1375.0 | 1875.0 | 1625.0 | 2375.0 |
+| Marti   |   1250 | 1375.0 | 1875.0 | 1625.0 | 2375.0 |
+| Mile    |   1300 | 1430.0 | 1950.0 | 1690.0 | 2470.0 |
+| Allen   |   1600 | 1760.0 | 2400.0 | 2080.0 | 3040.0 |
+| Clark   |   2450 | 2695.0 | 3675.0 | 3185.0 | 4655.0 |
+| Blake   |   2850 | 3135.0 | 4275.0 | 3705.0 | 5415.0 |
+| Jones   |   2975 | 3272.5 | 4462.5 | 3867.5 | 5652.5 |
+| Wong    |   3000 | 3300.0 | 4500.0 | 3900.0 | 5700.0 |
+| Ford    |   3000 | 3300.0 | 4500.0 | 3900.0 | 5700.0 |
+| King    |   5000 | 5500.0 | 7500.0 | 6500.0 | 9500.0 |
++---------+--------+--------+--------+--------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> ;
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Allen   |
+| Ward    |
+| Jones   |
+| Marti   |
+| Blake   |
+| Clark   |
+| Wong    |
+| King    |
+| Adam    |
+| James   |
+| Ford    |
+| Mile    |
++---------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME as NAME,e.HIREDATE-min(e.HIREDATE) as d
+    -> from employee e
+    -> where d>=2;
+ERROR 1054 (42S22): Unknown column 'd' in 'where clause'
+mysql> select e.EMPNAME as NAME,(e.HIREDATE-min(e.HIREDATE)) as d
+    -> from employee e
+    -> where d>=2;
+ERROR 1054 (42S22): Unknown column 'd' in 'where clause'
+mysql> select d.DEPTNO,count(e.EMPNO)
+    -> from employee e join department d on e.DEPTNO=d.DEPTNO
+    -> where e.DEPTNO=D.DEPTNO;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'aecitdb.d.DEPTNO'; this is incompatible with sql_mode=only_full_group_by
+mysql> select d.DEPTNO,count(e.EMPNO)
+    -> from employee e join department d on e.DEPTNO=d.DEPTNO;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'aecitdb.d.DEPTNO'; this is incompatible with sql_mode=only_full_group_by
+mysql> select d.DEPTNO,count(e.EMPNO)
+    -> from employee e inner join department d on e.DEPTNO=d.DEPTNO
+    -> where e.DEPTNO=d.DEPTNO;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'aecitdb.d.DEPTNO'; this is incompatible with sql_mode=only_full_group_by
+mysql>
+
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use secitdb;
+ERROR 1049 (42000): Unknown database 'secitdb'
+mysql> use aecitdb;
+Database changed
+mysql> select DEPTNO,count(*)
+    -> from employee;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'aecitdb.employee.DEPTNO'; this is incompatible with sql_mode=only_full_group_by
+mysql> select DEPTNO,count(*)
+    -> from employee
+    -> group by DEPTNO;
++--------+----------+
+| DEPTNO | count(*) |
++--------+----------+
+|     10 |        3 |
+|     20 |        5 |
+|     30 |        5 |
++--------+----------+
+3 rows in set (4.29 sec)
+
+mysql> select DEPTNO,sum(SAL)
+    -> from employee
+    -> group by DEPTNO;
++--------+----------+
+| DEPTNO | sum(SAL) |
++--------+----------+
+|     10 |     8750 |
+|     20 |    11075 |
+|     30 |     7900 |
++--------+----------+
+3 rows in set (0.01 sec)
+
+mysql> select JOB,COUNT(*)
+    -> from employee
+    -> group by DEPTNO order by COUNT(*) desc;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'aecitdb.employee.JOB' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select JOB,COUNT(*)
+    -> from employee
+    -> group by JOB order;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql> select JOB,COUNT(*) as d
+    -> from employee
+    -> group bt JOB order by d desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'bt JOB order by d desc' at line 3
+mysql> select JOB,COUNT(*) as d
+    -> from employee
+    -> group by JOB order by d desc;
++-----------+---+
+| JOB       | d |
++-----------+---+
+| Clerk     | 4 |
+| Salesman  | 3 |
+| Manager   | 3 |
+| Analyst   | 2 |
+| President | 1 |
++-----------+---+
+5 rows in set (0.02 sec)
+
+mysql> select sum(SAL),min(SAL),max(SAL),avg(SAL)
+    -> from employee
+    -> group by DEPTNO;
++----------+----------+----------+-----------+
+| sum(SAL) | min(SAL) | max(SAL) | avg(SAL)  |
++----------+----------+----------+-----------+
+|     8750 |     1300 |     5000 | 2916.6667 |
+|    11075 |     1000 |     3000 | 2215.0000 |
+|     7900 |      950 |     2850 | 1580.0000 |
++----------+----------+----------+-----------+
+3 rows in set (0.01 sec)
+
+mysql> select sum(SAL),min(SAL),max(SAL),avg(SAL)
+    -> from employee
+    -> group by JOB;
++----------+----------+----------+-----------+
+| sum(SAL) | min(SAL) | max(SAL) | avg(SAL)  |
++----------+----------+----------+-----------+
+|     4350 |      950 |     1300 | 1087.5000 |
+|     4100 |     1250 |     1600 | 1366.6667 |
+|     8275 |     2450 |     2975 | 2758.3333 |
+|     6000 |     3000 |     3000 | 3000.0000 |
+|     5000 |     5000 |     5000 | 5000.0000 |
++----------+----------+----------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select sum(SAL),min(SAL),max(SAL),avg(SAL)
+    -> from employee
+    -> where employee.DEPTNO=20;
++----------+----------+----------+-----------+
+| sum(SAL) | min(SAL) | max(SAL) | avg(SAL)  |
++----------+----------+----------+-----------+
+|    11075 |     1000 |     3000 | 2215.0000 |
++----------+----------+----------+-----------+
+1 row in set (0.01 sec)
+
+mysql> select sum(SAL),min(SAL),max(SAL),avg(SAL)
+    -> from employee
+    -> group by JOB;
++----------+----------+----------+-----------+
+| sum(SAL) | min(SAL) | max(SAL) | avg(SAL)  |
++----------+----------+----------+-----------+
+|     4350 |      950 |     1300 | 1087.5000 |
+|     4100 |     1250 |     1600 | 1366.6667 |
+|     8275 |     2450 |     2975 | 2758.3333 |
+|     6000 |     3000 |     3000 | 3000.0000 |
+|     5000 |     5000 |     5000 | 5000.0000 |
++----------+----------+----------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select sum(SAL),min(SAL),max(SAL),avg(SAL)
+    -> from employee
+    -> group by JOB
+    -> where DEPTNO=20 and avg(SAL)>1000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where DEPTNO=20 and avg(SAL)>1000' at line 4
+mysql> select sum(SAL),min(SAL),max(SAL),avg(SAL)as a
+    -> from employee
+    -> group by JOB
+    -> where DEPTNO=20 and a>1000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where DEPTNO=20 and a>1000' at line 4
+mysql> select JOB, sum(SAL) as salary,min(SAL) as minsalary,max(SAL) as maxsalary,avg(SAL)as average
+    -> from employee
+    -> where DEPTNO=20
+    -> group by JOB
+    -> having avg(sal)>1000;
++---------+--------+-----------+-----------+-----------+
+| JOB     | salary | minsalary | maxsalary | average   |
++---------+--------+-----------+-----------+-----------+
+| Clerk   |   2100 |      1000 |      1100 | 1050.0000 |
+| Manager |   2975 |      2975 |      2975 | 2975.0000 |
+| Analyst |   6000 |      3000 |      3000 | 3000.0000 |
++---------+--------+-----------+-----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

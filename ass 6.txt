@@ -1,0 +1,1251 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use aecitdb;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_aecitdb |
++-------------------+
+| department        |
+| dummy_item_1      |
+| employee          |
+| person            |
+| suraj             |
+| tempperson        |
++-------------------+
+6 rows in set (0.04 sec)
+
+mysql> select e.EMPNAME,e.JOB,d.DEPTNO,d.DEPTNAME
+    -> from employee e join
+    -> department d on e.DEPTNO=d.DEPTNO
+    -> where d.LOC='Dallas';
+ERROR 1054 (42S22): Unknown column 'd.DEPTNAME' in 'field list'
+mysql> select e.EMPNAME,e.JOB,d.DEPTNO,d.DNAME
+    -> from employee e join
+    -> department d on e.DEPTNO=d.DEPTNO
+    -> where d.LOC='Dallas';
++---------+---------+--------+----------+
+| EMPNAME | JOB     | DEPTNO | DNAME    |
++---------+---------+--------+----------+
+| Smith   | Clerk   |     20 | RESEARCH |
+| Jones   | Manager |     20 | RESEARCH |
+| Wong    | Analyst |     20 | RESEARCH |
+| Adam    | Clerk   |     20 | RESEARCH |
+| Ford    | Analyst |     20 | RESEARCH |
++---------+---------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME,e.ENO,e.MGR,e1.EMPNAME
+    -> from employee e join employee e1
+    -> on e.ENO=e1.MGR
+    -> where e.ENO=e1.MGR;
+ERROR 1054 (42S22): Unknown column 'e.ENO' in 'field list'
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| EMPNO    | int         | NO   | PRI | NULL    |       |
+| EMPNAME  | varchar(10) | YES  |     | NULL    |       |
+| JOB      | varchar(9)  | YES  |     | NULL    |       |
+| MGR      | int         | YES  |     | NULL    |       |
+| HIREDATE | date        | YES  |     | NULL    |       |
+| SAL      | int         | YES  |     | NULL    |       |
+| COMM     | int         | YES  |     | NULL    |       |
+| DEPTNO   | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> select e.EMPNAME,e.EMPNO,e.MGR,e1.EMPNAME
+    -> from employee e join employee e1
+    -> on e.EMPNO=e1.MGR
+    -> where e.EMPNO=e1.MGR;
++---------+-------+------+---------+
+| EMPNAME | EMPNO | MGR  | EMPNAME |
++---------+-------+------+---------+
+| Blake   |  7698 | 7839 | Allen   |
+| Blake   |  7698 | 7839 | Ward    |
+| King    |  7839 | NULL | Jones   |
+| Blake   |  7698 | 7839 | Marti   |
+| King    |  7839 | NULL | Blake   |
+| King    |  7839 | NULL | Clark   |
+| Jones   |  7566 | 7839 | Wong    |
+| Wong    |  7788 | 7566 | Adam    |
+| Jones   |  7566 | 7839 | Ford    |
+| Clark   |  7782 | 7839 | Mile    |
++---------+-------+------+---------+
+10 rows in set (0.00 sec)
+
+mysql>
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use aecitdb;
+Database changed
+mysql> update employee
+    -> set MGR=7876
+    -> where EMPNO=7839;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+-----------+------+------------+------+------+--------+
+| EMPNO | EMPNAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+---------+-----------+------+------------+------+------+--------+
+|  7369 | Smith   | Clerk     | 7920 | 1989-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen   | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward    | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones   | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti   | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake   | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark   | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong    | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King    | President | 7876 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam    | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James   | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford    | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile    | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+---------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNO,e.EMPNAME,e.MGR,e1.EMPNAME
+    -> from employee e join
+    -> employee  e1 on e.EMPNO=E1.EMPNO;
++-------+---------+------+---------+
+| EMPNO | EMPNAME | MGR  | EMPNAME |
++-------+---------+------+---------+
+|  7369 | Smith   | 7920 | Smith   |
+|  7499 | Allen   | 7698 | Allen   |
+|  7521 | Ward    | 7698 | Ward    |
+|  7566 | Jones   | 7839 | Jones   |
+|  7654 | Marti   | 7698 | Marti   |
+|  7698 | Blake   | 7839 | Blake   |
+|  7782 | Clark   | 7839 | Clark   |
+|  7788 | Wong    | 7566 | Wong    |
+|  7839 | King    | 7876 | King    |
+|  7876 | Adam    | 7788 | Adam    |
+|  7900 | James   | 7689 | James   |
+|  7902 | Ford    | 7566 | Ford    |
+|  7934 | Mile    | 7782 | Mile    |
++-------+---------+------+---------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNO,e.EMPNAME,e.MGR,e1.EMPNAME
+    -> from employee e join
+    -> employee  e1 on e.EMPNO=E1.EMPNO
+    -> where e.EMPNO=e1.MGR;
+Empty set (0.00 sec)
+
+mysql> select e.EMPNO,e.EMPNAME,e.MGR,e1.EMPNAME
+    -> from employee e join
+    -> employee  e1 on e.EMPNO=E1.MGR
+    -> where e.EMPNO=e1.MGR;
++-------+---------+------+---------+
+| EMPNO | EMPNAME | MGR  | EMPNAME |
++-------+---------+------+---------+
+|  7698 | Blake   | 7839 | Allen   |
+|  7698 | Blake   | 7839 | Ward    |
+|  7839 | King    | 7876 | Jones   |
+|  7698 | Blake   | 7839 | Marti   |
+|  7839 | King    | 7876 | Blake   |
+|  7839 | King    | 7876 | Clark   |
+|  7566 | Jones   | 7839 | Wong    |
+|  7876 | Adam    | 7788 | King    |
+|  7788 | Wong    | 7566 | Adam    |
+|  7566 | Jones   | 7839 | Ford    |
+|  7782 | Clark   | 7839 | Mile    |
++-------+---------+------+---------+
+11 rows in set (0.00 sec)
+
+mysql> select e.EMPNO,e.EMPNAME,e.MGR,e1.EMPNAME
+    -> from employee e join
+    -> employee  e1 on e.MGR=E1.MGR
+    -> ;
++-------+---------+------+---------+
+| EMPNO | EMPNAME | MGR  | EMPNAME |
++-------+---------+------+---------+
+|  7369 | Smith   | 7920 | Smith   |
+|  7654 | Marti   | 7698 | Allen   |
+|  7521 | Ward    | 7698 | Allen   |
+|  7499 | Allen   | 7698 | Allen   |
+|  7654 | Marti   | 7698 | Ward    |
+|  7521 | Ward    | 7698 | Ward    |
+|  7499 | Allen   | 7698 | Ward    |
+|  7782 | Clark   | 7839 | Jones   |
+|  7698 | Blake   | 7839 | Jones   |
+|  7566 | Jones   | 7839 | Jones   |
+|  7654 | Marti   | 7698 | Marti   |
+|  7521 | Ward    | 7698 | Marti   |
+|  7499 | Allen   | 7698 | Marti   |
+|  7782 | Clark   | 7839 | Blake   |
+|  7698 | Blake   | 7839 | Blake   |
+|  7566 | Jones   | 7839 | Blake   |
+|  7782 | Clark   | 7839 | Clark   |
+|  7698 | Blake   | 7839 | Clark   |
+|  7566 | Jones   | 7839 | Clark   |
+|  7902 | Ford    | 7566 | Wong    |
+|  7788 | Wong    | 7566 | Wong    |
+|  7839 | King    | 7876 | King    |
+|  7876 | Adam    | 7788 | Adam    |
+|  7900 | James   | 7689 | James   |
+|  7902 | Ford    | 7566 | Ford    |
+|  7788 | Wong    | 7566 | Ford    |
+|  7934 | Mile    | 7782 | Mile    |
++-------+---------+------+---------+
+27 rows in set (0.01 sec)
+
+mysql> select EMPNAME
+    -> from employee,department
+    -> where employee.DEPTNO=departname.DEPTNO;
+ERROR 1054 (42S22): Unknown column 'departname.DEPTNO' in 'where clause'
+mysql> select EMPNAME
+    -> from employee,department
+    -> where employee.DEPTNO=department.DEPTNO;
++---------+
+| EMPNAME |
++---------+
+| Clark   |
+| King    |
+| Mile    |
+| Smith   |
+| Jones   |
+| Wong    |
+| Adam    |
+| Ford    |
+| Allen   |
+| Ward    |
+| Marti   |
+| Blake   |
+| James   |
++---------+
+13 rows in set (0.01 sec)
+
+mysql>
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use aecitdb;
+Database changed
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME,
+    -> e.MGR as manager no
+    -> from employee e left join employee m on e.MGR=m.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'no
+from employee e left join employee m on e.MGR=m.EMPNO' at line 2
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME as manager name
+    -> e.MGR as manager no
+    -> from employee e left join employee m on e.MGR=m.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'name
+e.MGR as manager no
+from employee e left join employee m on e.MGR=m.EMPNO' at line 1
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME,
+    -> e.MGR as manager_no
+    -> from employee e left join employee m on e.MGR=m.EMPNO;
++---------+-------+---------+------------+
+| EMPNAME | EMPNO | EMPNAME | manager_no |
++---------+-------+---------+------------+
+| Smith   |  7369 | NULL    |       7920 |
+| Allen   |  7499 | Blake   |       7698 |
+| Ward    |  7521 | Blake   |       7698 |
+| Jones   |  7566 | King    |       7839 |
+| Marti   |  7654 | Blake   |       7698 |
+| Blake   |  7698 | King    |       7839 |
+| Clark   |  7782 | King    |       7839 |
+| Wong    |  7788 | Jones   |       7566 |
+| King    |  7839 | Adam    |       7876 |
+| Adam    |  7876 | Wong    |       7788 |
+| James   |  7900 | NULL    |       7689 |
+| Ford    |  7902 | Jones   |       7566 |
+| Mile    |  7934 | Clark   |       7782 |
++---------+-------+---------+------------+
+13 rows in set (3.60 sec)
+
+mysql> alter table employee
+    -> alter column ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> update employee
+    -> set MGR=7902
+    -> where EMPNO=7369;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+-----------+------+------------+------+------+--------+
+| EMPNO | EMPNAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+---------+-----------+------+------------+------+------+--------+
+|  7369 | Smith   | Clerk     | 7902 | 1989-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen   | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward    | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones   | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti   | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake   | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark   | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong    | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King    | President | 7876 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam    | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James   | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford    | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile    | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+---------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME as manager
+    -> e.MGR as manager_no
+    -> from employee e left join employee m on e.MGR=m.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'e.MGR as manager_no
+from employee e left join employee m on e.MGR=m.EMPNO' at line 2
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME,
+    -> e.MGR as manager
+    -> from employee e left join employee m on e.MGR=m.EMPNO;
++---------+-------+---------+---------+
+| EMPNAME | EMPNO | EMPNAME | manager |
++---------+-------+---------+---------+
+| Smith   |  7369 | Ford    |    7902 |
+| Allen   |  7499 | Blake   |    7698 |
+| Ward    |  7521 | Blake   |    7698 |
+| Jones   |  7566 | King    |    7839 |
+| Marti   |  7654 | Blake   |    7698 |
+| Blake   |  7698 | King    |    7839 |
+| Clark   |  7782 | King    |    7839 |
+| Wong    |  7788 | Jones   |    7566 |
+| King    |  7839 | Adam    |    7876 |
+| Adam    |  7876 | Wong    |    7788 |
+| James   |  7900 | NULL    |    7689 |
+| Ford    |  7902 | Jones   |    7566 |
+| Mile    |  7934 | Clark   |    7782 |
++---------+-------+---------+---------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME as managername
+    -> e.MGR as managerno
+    -> from employee e left join employee m on e.MGR=m.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'e.MGR as managerno
+from employee e left join employee m on e.MGR=m.EMPNO' at line 2
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME as manager_name
+    -> e.MGR as manager_no
+    -> from employee e  join employee m on e.MGR=m.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'e.MGR as manager_no
+from employee e  join employee m on e.MGR=m.EMPNO' at line 2
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME as manager_name
+    -> e.MGR as manager_no
+    -> from employee e left join employee m on e.MGR=m.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'e.MGR as manager_no
+from employee e left join employee m on e.MGR=m.EMPNO' at line 2
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME as manager_name,
+    -> e.MGR as manager_no
+    -> from employee e left join employee m on e.MGR=m.EMPNO;
++---------+-------+--------------+------------+
+| EMPNAME | EMPNO | manager_name | manager_no |
++---------+-------+--------------+------------+
+| Smith   |  7369 | Ford         |       7902 |
+| Allen   |  7499 | Blake        |       7698 |
+| Ward    |  7521 | Blake        |       7698 |
+| Jones   |  7566 | King         |       7839 |
+| Marti   |  7654 | Blake        |       7698 |
+| Blake   |  7698 | King         |       7839 |
+| Clark   |  7782 | King         |       7839 |
+| Wong    |  7788 | Jones        |       7566 |
+| King    |  7839 | Adam         |       7876 |
+| Adam    |  7876 | Wong         |       7788 |
+| James   |  7900 | NULL         |       7689 |
+| Ford    |  7902 | Jones        |       7566 |
+| Mile    |  7934 | Clark        |       7782 |
++---------+-------+--------------+------------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME as manager_name
+    -> select e.EMPNAME,e.EMPNO,m.EMPNAME as manager_name;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select e.EMPNAME,e.EMPNO,m.EMPNAME as manager_name' at line 2
+mysql> select e.EMPNAME,e.EMPNO,m.EMPNAME as manager_name,
+    -> e.MGR as manager_no
+    -> from employee e  join employee m on e.MGR=m.EMPNO;
++---------+-------+--------------+------------+
+| EMPNAME | EMPNO | manager_name | manager_no |
++---------+-------+--------------+------------+
+| Smith   |  7369 | Ford         |       7902 |
+| Allen   |  7499 | Blake        |       7698 |
+| Ward    |  7521 | Blake        |       7698 |
+| Jones   |  7566 | King         |       7839 |
+| Marti   |  7654 | Blake        |       7698 |
+| Blake   |  7698 | King         |       7839 |
+| Clark   |  7782 | King         |       7839 |
+| Wong    |  7788 | Jones        |       7566 |
+| King    |  7839 | Adam         |       7876 |
+| Adam    |  7876 | Wong         |       7788 |
+| Ford    |  7902 | Jones        |       7566 |
+| Mile    |  7934 | Clark        |       7782 |
++---------+-------+--------------+------------+
+12 rows in set (0.01 sec)
+
+mysql> select EMPNAME
+    -> from employee,department d,department d1
+    -> ;
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
++---------+
+208 rows in set (0.01 sec)
+
+mysql> select EMPNAME
+    -> from employee join department d join department d1
+    -> ;
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Smith   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Allen   |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Ward    |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Jones   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Marti   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Blake   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Clark   |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| King    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| Adam    |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| James   |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Ford    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
+| Mile    |
++---------+
+208 rows in set (0.00 sec)
+
+mysql> select EMPNAME
+    -> from employee  join department d on  employee.DEPTNO=d.DEPTNO
+    -> join department d1 on d.DEPTNO=d1.DEPTNO
+    -> where d.DEPTNO=d1.DEPTNO;
++---------+
+| EMPNAME |
++---------+
+| Clark   |
+| King    |
+| Mile    |
+| Smith   |
+| Jones   |
+| Wong    |
+| Adam    |
+| Ford    |
+| Allen   |
+| Ward    |
+| Marti   |
+| Blake   |
+| James   |
++---------+
+13 rows in set (0.00 sec)
+
+mysql> select EMPNAME
+    -> from employee  join department d on  employee.DEPTNO=d.DEPTNO
+    -> join department d1 on d.DEPTNO=d1.DEPTNO
+    -> where d.DEPTNO=d1.DEPTNO and employee.EMPNAME=Wong;
+ERROR 1054 (42S22): Unknown column 'Wong' in 'where clause'
+mysql> select EMPNAME
+    -> from employee  join department d on  employee.DEPTNO=d.DEPTNO
+    -> join department d1 on d.DEPTNO=d1.DEPTNO
+    -> where d.DEPTNO=d1.DEPTNO and employee.EMPNAME='Wong';
++---------+
+| EMPNAME |
++---------+
+| Wong    |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select EMPNAME
+    -> from employee  join department d on  employee.DEPTNO=d.DEPTNO
+    -> join department d1 on d.DEPTNO=d1.DEPTNO
+    -> where  employee.EMPNAME='Wong';
++---------+
+| EMPNAME |
++---------+
+| Wong    |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select EMPNAME
+    -> from employee  join department d
+    -> join department d1
+    -> where  employee.EMPNAME='Wong';
++---------+
+| EMPNAME |
++---------+
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
+| Wong    |
++---------+
+16 rows in set (0.00 sec)
+
+mysql> select EMPNAME
+    -> from employee  join department d on  employee.DEPTNO=d.DEPTNO
+    -> join department d1 on d.DEPTNO=d1.DEPTNO
+    -> where d.DNAME='SALES';
++---------+
+| EMPNAME |
++---------+
+| Allen   |
+| Ward    |
+| Marti   |
+| Blake   |
+| James   |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select EMPNAME
+    -> from employee  join department d on  employee.DEPTNO=d.DEPTNO
+    -> join department d1 on d.DEPTNO=d1.DEPTNO
+    -> where d.DNAME='RESEARCH';
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Jones   |
+| Wong    |
+| Adam    |
+| Ford    |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select EMPNAME,JOB,DNAME,SALARY,d.DEPTNO
+    -> from employee join department d on employee.DEPTNO=d.DEPTNO
+    -> ;
+ERROR 1054 (42S22): Unknown column 'SALARY' in 'field list'
+mysql> select EMPNAME,JOB,DNAME,SAL,d.DEPTNO
+    -> from employee join department d on employee.DEPTNO=d.DEPTNO;
++---------+-----------+----------+------+--------+
+| EMPNAME | JOB       | DNAME    | SAL  | DEPTNO |
++---------+-----------+----------+------+--------+
+| Clark   | Manager   | HRD      | 2450 |     10 |
+| King    | President | HRD      | 5000 |     10 |
+| Mile    | Clerk     | HRD      | 1300 |     10 |
+| Smith   | Clerk     | RESEARCH | 1000 |     20 |
+| Jones   | Manager   | RESEARCH | 2975 |     20 |
+| Wong    | Analyst   | RESEARCH | 3000 |     20 |
+| Adam    | Clerk     | RESEARCH | 1100 |     20 |
+| Ford    | Analyst   | RESEARCH | 3000 |     20 |
+| Allen   | Salesman  | SALES    | 1600 |     30 |
+| Ward    | Salesman  | SALES    | 1250 |     30 |
+| Marti   | Salesman  | SALES    | 1250 |     30 |
+| Blake   | Manager   | SALES    | 2850 |     30 |
+| James   | Clerk     | SALES    |  950 |     30 |
++---------+-----------+----------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql>
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use aecitdb;
+Database changed
+mysql> select EMPNAME as Name,HIREDATE as hire_date
+    -> from employee
+    -> where
+    -> HIREDATE >'1989/05/01';
++-------+------------+
+| Name  | hire_date  |
++-------+------------+
+| Smith | 1989-12-17 |
+| Marti | 1989-09-28 |
+| Clark | 1989-06-09 |
+| King  | 1989-11-17 |
+| James | 1989-12-03 |
+| Ford  | 1989-12-03 |
++-------+------------+
+6 rows in set, 1 warning (1.69 sec)
+
+mysql> select EMPNAME as Name,HIREDATE as hire_date
+    -> from employee
+    -> where
+    -> HIREDATE >'1989/05/01' order by HIREDATE;
++-------+------------+
+| Name  | hire_date  |
++-------+------------+
+| Clark | 1989-06-09 |
+| Marti | 1989-09-28 |
+| King  | 1989-11-17 |
+| James | 1989-12-03 |
+| Ford  | 1989-12-03 |
+| Smith | 1989-12-17 |
++-------+------------+
+6 rows in set, 1 warning (0.09 sec)
+
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e left join employee m on e.MGR=m.EMPNO
+    -> where e.HIREDATE < m.HIREDATE;
++----------+------------+--------------+----------------------+
+| Emp_Name | hire_date  | manager_name | manager_joining_date |
++----------+------------+--------------+----------------------+
+| Allen    | 1989-02-20 | Blake        | 1989-05-01           |
+| Ward     | 1989-02-22 | Blake        | 1989-05-01           |
+| Jones    | 1989-03-02 | King         | 1989-11-17           |
+| Blake    | 1989-05-01 | King         | 1989-11-17           |
+| Clark    | 1989-06-09 | King         | 1989-11-17           |
+| Wong     | 1987-04-19 | Jones        | 1989-03-02           |
+| Mile     | 1986-01-23 | Clark        | 1989-06-09           |
++----------+------------+--------------+----------------------+
+7 rows in set (0.01 sec)
+
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  full join employee m on e.MGR=m.EMPNO
+    -> where e.HIREDATE < m.HIREDATE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full join employee m on e.MGR=m.EMPNO
+where e.HIREDATE < m.HIREDATE' at line 2
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e left join employee m on e.MGR=m.EMPNO
+    -> where e.HIREDATE < m.HIREDATE;
++----------+------------+--------------+----------------------+
+| Emp_Name | hire_date  | manager_name | manager_joining_date |
++----------+------------+--------------+----------------------+
+| Allen    | 1989-02-20 | Blake        | 1989-05-01           |
+| Ward     | 1989-02-22 | Blake        | 1989-05-01           |
+| Jones    | 1989-03-02 | King         | 1989-11-17           |
+| Blake    | 1989-05-01 | King         | 1989-11-17           |
+| Clark    | 1989-06-09 | King         | 1989-11-17           |
+| Wong     | 1987-04-19 | Jones        | 1989-03-02           |
+| Mile     | 1986-01-23 | Clark        | 1989-06-09           |
++----------+------------+--------------+----------------------+
+7 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  full join employee m on e.MGR=m.EMPNO
+    -> where e.HIREDATE < m.HIREDATE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full join employee m on e.MGR=m.EMPNO
+where e.HIREDATE < m.HIREDATE' at line 2
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  join employee m on e.MGR=m.EMPNO
+    -> where e.HIREDATE < m.HIREDATE;
++----------+------------+--------------+----------------------+
+| Emp_Name | hire_date  | manager_name | manager_joining_date |
++----------+------------+--------------+----------------------+
+| Allen    | 1989-02-20 | Blake        | 1989-05-01           |
+| Ward     | 1989-02-22 | Blake        | 1989-05-01           |
+| Jones    | 1989-03-02 | King         | 1989-11-17           |
+| Blake    | 1989-05-01 | King         | 1989-11-17           |
+| Clark    | 1989-06-09 | King         | 1989-11-17           |
+| Wong     | 1987-04-19 | Jones        | 1989-03-02           |
+| Mile     | 1986-01-23 | Clark        | 1989-06-09           |
++----------+------------+--------------+----------------------+
+7 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  right join employee m on e.MGR=m.EMPNO
+    -> where e.HIREDATE < m.HIREDATE;
++----------+------------+--------------+----------------------+
+| Emp_Name | hire_date  | manager_name | manager_joining_date |
++----------+------------+--------------+----------------------+
+| Allen    | 1989-02-20 | Blake        | 1989-05-01           |
+| Ward     | 1989-02-22 | Blake        | 1989-05-01           |
+| Jones    | 1989-03-02 | King         | 1989-11-17           |
+| Blake    | 1989-05-01 | King         | 1989-11-17           |
+| Clark    | 1989-06-09 | King         | 1989-11-17           |
+| Wong     | 1987-04-19 | Jones        | 1989-03-02           |
+| Mile     | 1986-01-23 | Clark        | 1989-06-09           |
++----------+------------+--------------+----------------------+
+7 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  inner join employee m on e.MGR=m.EMPNO
+    -> and e.HIREDATE < m.HIREDATE;
++----------+------------+--------------+----------------------+
+| Emp_Name | hire_date  | manager_name | manager_joining_date |
++----------+------------+--------------+----------------------+
+| Allen    | 1989-02-20 | Blake        | 1989-05-01           |
+| Ward     | 1989-02-22 | Blake        | 1989-05-01           |
+| Jones    | 1989-03-02 | King         | 1989-11-17           |
+| Blake    | 1989-05-01 | King         | 1989-11-17           |
+| Clark    | 1989-06-09 | King         | 1989-11-17           |
+| Wong     | 1987-04-19 | Jones        | 1989-03-02           |
+| Mile     | 1986-01-23 | Clark        | 1989-06-09           |
++----------+------------+--------------+----------------------+
+7 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  inner join employee m on e.MGR=m.EMPNO ;
++----------+------------+--------------+----------------------+
+| Emp_Name | hire_date  | manager_name | manager_joining_date |
++----------+------------+--------------+----------------------+
+| Smith    | 1989-12-17 | Ford         | 1989-12-03           |
+| Allen    | 1989-02-20 | Blake        | 1989-05-01           |
+| Ward     | 1989-02-22 | Blake        | 1989-05-01           |
+| Jones    | 1989-03-02 | King         | 1989-11-17           |
+| Marti    | 1989-09-28 | Blake        | 1989-05-01           |
+| Blake    | 1989-05-01 | King         | 1989-11-17           |
+| Clark    | 1989-06-09 | King         | 1989-11-17           |
+| Wong     | 1987-04-19 | Jones        | 1989-03-02           |
+| King     | 1989-11-17 | Adam         | 1987-05-23           |
+| Adam     | 1987-05-23 | Wong         | 1987-04-19           |
+| Ford     | 1989-12-03 | Jones        | 1989-03-02           |
+| Mile     | 1986-01-23 | Clark        | 1989-06-09           |
++----------+------------+--------------+----------------------+
+12 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  inner join employee m on e.MGR=m.EMPNO
+    -> and e.HIREDATE < m.HIREDATE;
++----------+------------+--------------+----------------------+
+| Emp_Name | hire_date  | manager_name | manager_joining_date |
++----------+------------+--------------+----------------------+
+| Allen    | 1989-02-20 | Blake        | 1989-05-01           |
+| Ward     | 1989-02-22 | Blake        | 1989-05-01           |
+| Jones    | 1989-03-02 | King         | 1989-11-17           |
+| Blake    | 1989-05-01 | King         | 1989-11-17           |
+| Clark    | 1989-06-09 | King         | 1989-11-17           |
+| Wong     | 1987-04-19 | Jones        | 1989-03-02           |
+| Mile     | 1986-01-23 | Clark        | 1989-06-09           |
++----------+------------+--------------+----------------------+
+7 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  full inner join employee m on e.MGR=m.EMPNO
+    -> and e.HIREDATE < m.HIREDATE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full inner join employee m on e.MGR=m.EMPNO
+and e.HIREDATE < m.HIREDATE' at line 2
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  full outer join employee m on e.MGR=m.EMPNO
+    -> and e.HIREDATE < m.HIREDATE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full outer join employee m on e.MGR=m.EMPNO
+and e.HIREDATE < m.HIREDATE' at line 2
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  full inner join employee m on e.MGR=m.EMPNO
+    -> where e.HIREDATE < m.HIREDATE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full inner join employee m on e.MGR=m.EMPNO
+where e.HIREDATE < m.HIREDATE' at line 2
+mysql> select e.EMPNAME as Emp_Name,e.HIREDATE as hire_date,m.EMPNAME as manager_name,m.HIREDATE as manager_joining_date
+    -> from employee e  full outer join employee m on e.MGR=m.EMPNO
+    -> where e.HIREDATE < m.HIREDATE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'full outer join employee m on e.MGR=m.EMPNO
+where e.HIREDATE < m.HIREDATE' at line 2
+mysql> select SAL from employee group by SAL order by SAL desc limit 1,1;
++------+
+| SAL  |
++------+
+| 3000 |
++------+
+1 row in set (0.01 sec)
+
+mysql> select SAL from employee  order by SAL desc limit 1,1;
++------+
+| SAL  |
++------+
+| 3000 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select SAL from employee  order by SAL desc limit 5,5;
++------+
+| SAL  |
++------+
+| 2450 |
+| 1600 |
+| 1300 |
+| 1250 |
+| 1250 |
++------+
+5 rows in set (0.00 sec)
+
+mysql> select SAL from employee  order by SAL desc limit 5,1;
++------+
+| SAL  |
++------+
+| 2450 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select SAL from employee  order by SAL desc;
++------+
+| SAL  |
++------+
+| 5000 |
+| 3000 |
+| 3000 |
+| 2975 |
+| 2850 |
+| 2450 |
+| 1600 |
+| 1300 |
+| 1250 |
+| 1250 |
+| 1100 |
+| 1000 |
+|  950 |
++------+
+13 rows in set (0.00 sec)
+
+mysql> select SAL from employee  order by SAL desc limit 4,0;
+Empty set (0.00 sec)
+
+mysql> select SAL from employee  order by SAL desc limit 4,1;
++------+
+| SAL  |
++------+
+| 2850 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select SAL from employee  group by SAL order by SAL desc limit 4,1;
++------+
+| SAL  |
++------+
+| 2450 |
++------+
+1 row in set (0.00 sec)
+
+mysql> select SAL from employee    order by SAL desc limit 4,1;
++------+
+| SAL  |
++------+
+| 2850 |
++------+
+1 row in set (0.00 sec)
+
+mysql>

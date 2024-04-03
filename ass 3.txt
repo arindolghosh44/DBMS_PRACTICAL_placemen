@@ -1,0 +1,195 @@
+
+mysql> select * from customer;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1001 | Prakesh   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
+|    1004 | Rajen     | NULL  |
++---------+-----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer where state='UP';
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1001 | Prakesh   | UP    |
+|    1003 | Murti     | UP    |
++---------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customer where cust_name='Prakesh';
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1001 | Prakesh   | UP    |
++---------+-----------+-------+
+1 row in set (0.00 sec)
+
+mysql> alter table customer
+    -> change
+    -> state state varchar(144) check(state='UP' or state='AP' or state='WB');
+Query OK, 4 rows affected (0.05 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_no   | int          | NO   | PRI | NULL    |       |
+| cust_name | varchar(20)  | YES  |     | NULL    |       |
+| state     | varchar(144) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customer;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1001 | Prakesh   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
+|    1004 | Rajen     | NULL  |
++---------+-----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into customer
+    -> values
+    -> (1004,'Rajen','WB');
+ERROR 3819 (HY000): Check constraint 'customer_chk_3' is violated.
+mysql> update customer
+    -> set state='WB'
+    -> where cust_no=1004;
+ERROR 3819 (HY000): Check constraint 'customer_chk_3' is violated.
+mysql> clear
+mysql> select * from customer where state='AP'or State='WB';
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1002 | Mukesh    | AP    |
++---------+-----------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer where state<>'UP';
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1002 | Mukesh    | AP    |
++---------+-----------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from item ;
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    1 | Sword   |       2 |    50 |
+|    2 | Nut     |       5 |   110 |
+|    3 | Bold    |       4 |    75 |
+|    4 | Hammer  |      10 |   125 |
+|    5 | Washer  |       2 |   100 |
+|    6 | Nail    |      13 |   300 |
+|    7 | Axe     |       4 |    25 |
+|    8 | Scissor |       2 |    15 |
++------+---------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select * from item where i_name='Nail';
++------+--------+---------+-------+
+| i_no | i_name | i_price | i_qty |
++------+--------+---------+-------+
+|    6 | Nail   |      13 |   300 |
++------+--------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from item where i_price>=2 and i_price<=6;
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    1 | Sword   |       2 |    50 |
+|    2 | Nut     |       5 |   110 |
+|    3 | Bold    |       4 |    75 |
+|    5 | Washer  |       2 |   100 |
+|    7 | Axe     |       4 |    25 |
+|    8 | Scissor |       2 |    15 |
++------+---------+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from item where i_price><>2 and i_price<<>6;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '><>2 and i_price<<>6' at line 1
+mysql> select * from item where not(i_price><>2 and i_price<<>6);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '><>2 and i_price<<>6)' at line 1
+mysql> select * from item where not(i_price>=2 and i_price<=6);
++------+--------+---------+-------+
+| i_no | i_name | i_price | i_qty |
++------+--------+---------+-------+
+|    4 | Hammer |      10 |   125 |
+|    6 | Nail   |      13 |   300 |
++------+--------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from item where i_price>1.00 and i_qty<200;
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    1 | Sword   |       2 |    50 |
+|    2 | Nut     |       5 |   110 |
+|    3 | Bold    |       4 |    75 |
+|    4 | Hammer  |      10 |   125 |
+|    5 | Washer  |       2 |   100 |
+|    7 | Axe     |       4 |    25 |
+|    8 | Scissor |       2 |    15 |
++------+---------+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select * from item where i_name like '%o%';
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    1 | Sword   |       2 |    50 |
+|    3 | Bold    |       4 |    75 |
+|    8 | Scissor |       2 |    15 |
++------+---------+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select * from item where i_name like 'A%';
++------+--------+---------+-------+
+| i_no | i_name | i_price | i_qty |
++------+--------+---------+-------+
+|    7 | Axe    |       4 |    25 |
++------+--------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from item where i_name like '%r';
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    4 | Hammer  |      10 |   125 |
+|    5 | Washer  |       2 |   100 |
+|    8 | Scissor |       2 |    15 |
++------+---------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customer order by state desc;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1001 | Prakesh   | UP    |
+|    1003 | Murti     | UP    |
+|    1002 | Mukesh    | AP    |
+|    1004 | Rajen     | NULL  |
++---------+-----------+-------+
+4 rows in set (0.01 sec)
+
+mysql> select * from customer order by state asc;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1004 | Rajen     | NULL  |
+|    1002 | Mukesh    | AP    |
+|    1001 | Prakesh   | UP    |
+|    1003 | Murti     | UP    |
++---------+-----------+-------+
+4 rows in set (0.00 sec)
+
+mysql>

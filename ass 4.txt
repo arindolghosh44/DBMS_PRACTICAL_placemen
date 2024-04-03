@@ -1,0 +1,789 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use aecitdb;
+Database changed
+mysql> select * from item;
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    1 | Sword   |       2 |    50 |
+|    2 | Nut     |       5 |   110 |
+|    3 | Bold    |       4 |    75 |
+|    4 | Hammer  |      10 |   125 |
+|    5 | Washer  |       2 |   100 |
+|    6 | Nail    |      13 |   300 |
+|    7 | Axe     |       4 |    25 |
+|    8 | Scissor |       2 |    15 |
++------+---------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql> update item
+    -> set i_qty=75
+    -> where i_no=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from item;
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    1 | Sword   |       2 |    75 |
+|    2 | Nut     |       5 |   110 |
+|    3 | Bold    |       4 |    75 |
+|    4 | Hammer  |      10 |   125 |
+|    5 | Washer  |       2 |   100 |
+|    6 | Nail    |      13 |   300 |
+|    7 | Axe     |       4 |    25 |
+|    8 | Scissor |       2 |    15 |
++------+---------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> update item
+    -> set i_price=6
+    -> where i_name='Nut';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from item;
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    1 | Sword   |       2 |    75 |
+|    2 | Nut     |       6 |   110 |
+|    3 | Bold    |       4 |    75 |
+|    4 | Hammer  |      10 |   125 |
+|    5 | Washer  |       2 |   100 |
+|    6 | Nail    |      13 |   300 |
+|    7 | Axe     |       4 |    25 |
+|    8 | Scissor |       2 |    15 |
++------+---------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> update item
+    -> set i_price=i_price*1.1;
+Query OK, 3 rows affected, 7 warnings (0.01 sec)
+Rows matched: 8  Changed: 3  Warnings: 7
+
+mysql> select * from item;
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    1 | Sword   |       2 |    75 |
+|    2 | Nut     |       7 |   110 |
+|    3 | Bold    |       4 |    75 |
+|    4 | Hammer  |      11 |   125 |
+|    5 | Washer  |       2 |   100 |
+|    6 | Nail    |      14 |   300 |
+|    7 | Axe     |       4 |    25 |
+|    8 | Scissor |       2 |    15 |
++------+---------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> desc item;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| i_no    | int           | NO   | PRI | NULL    |       |
+| i_name  | varchar(20)   | NO   |     | NULL    |       |
+| i_price | decimal(10,0) | YES  |     | NULL    |       |
+| i_qty   | int           | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+4 rows in set (0.04 sec)
+
+mysql> delete * from item where i_qty=500;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from item where i_qty=500' at line 1
+mysql> insert into item
+    -> values
+    -> (9,'ffg',7.8,500);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select * from item;
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    1 | Sword   |       2 |    75 |
+|    2 | Nut     |       7 |   110 |
+|    3 | Bold    |       4 |    75 |
+|    4 | Hammer  |      11 |   125 |
+|    5 | Washer  |       2 |   100 |
+|    6 | Nail    |      14 |   300 |
+|    7 | Axe     |       4 |    25 |
+|    8 | Scissor |       2 |    15 |
+|    9 | ffg     |       8 |   500 |
++------+---------+---------+-------+
+9 rows in set (0.00 sec)
+
+mysql> delete * from item where i_qty=500;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from item where i_qty=500' at line 1
+mysql> delete  from item where i_qty=500;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from item;
++------+---------+---------+-------+
+| i_no | i_name  | i_price | i_qty |
++------+---------+---------+-------+
+|    1 | Sword   |       2 |    75 |
+|    2 | Nut     |       7 |   110 |
+|    3 | Bold    |       4 |    75 |
+|    4 | Hammer  |      11 |   125 |
+|    5 | Washer  |       2 |   100 |
+|    6 | Nail    |      14 |   300 |
+|    7 | Axe     |       4 |    25 |
+|    8 | Scissor |       2 |    15 |
++------+---------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> delete from item where i_qty=500;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delete from item where i_price>=0.1 and i_price<=1.00;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> alter table customer
+    -> add Phone_no Number(10);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Number(10)' at line 2
+mysql> alter table customer
+    -> add Phone_no int check(length(Phone_no)=10);
+Query OK, 4 rows affected (0.04 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_no   | int          | NO   | PRI | NULL    |       |
+| cust_name | varchar(20)  | YES  |     | NULL    |       |
+| state     | varchar(144) | YES  |     | NULL    |       |
+| Phone_no  | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer;
++---------+-----------+-------+----------+
+| cust_no | cust_name | state | Phone_no |
++---------+-----------+-------+----------+
+|    1001 | Prakesh   | UP    |     NULL |
+|    1002 | Mukesh    | AP    |     NULL |
+|    1003 | Murti     | UP    |     NULL |
+|    1004 | Rajen     | NULL  |     NULL |
++---------+-----------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> alter table customer
+    -> change
+    -> Phone_no Phone_no int check(length(Phone_no)=15);
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_no   | int          | NO   | PRI | NULL    |       |
+| cust_name | varchar(20)  | YES  |     | NULL    |       |
+| state     | varchar(144) | YES  |     | NULL    |       |
+| Phone_no  | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from customer;
++---------+-----------+-------+----------+
+| cust_no | cust_name | state | Phone_no |
++---------+-----------+-------+----------+
+|    1001 | Prakesh   | UP    |     NULL |
+|    1002 | Mukesh    | AP    |     NULL |
+|    1003 | Murti     | UP    |     NULL |
+|    1004 | Rajen     | NULL  |     NULL |
++---------+-----------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> insert into customer
+    -> values
+    -> (1005,'SKD','WB',787777777777777);
+ERROR 1264 (22003): Out of range value for column 'Phone_no' at row 1
+mysql> insert into customer
+    -> values
+    -> (1005,'SKD','WB',78777777777777);
+ERROR 1264 (22003): Out of range value for column 'Phone_no' at row 1
+mysql> update customer
+    -> set Phone_no int check(length(Phone_no)=15);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int check(length(Phone_no)=15)' at line 2
+mysql> update customer
+    -> set Phone_no int check(length(Phone_no)=15)
+    -> where cust_no<>null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int check(length(Phone_no)=15)
+where cust_no<>null' at line 2
+mysql>
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use aecitdb;
+Database changed
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| aecitdb            |
+| book               |
+| db                 |
+| dbms               |
+| ebook-app          |
+| eco                |
+| ecommerce          |
+| ecommerce_youtube  |
+| emp                |
+| enotes2            |
+| ert                |
+| ghor               |
+| hospital_2         |
+| information_schema |
+| joins              |
+| mydata             |
+| mydb               |
+| mysql              |
+| new_assignment     |
+| new_schema         |
+| new_schema262626   |
+| performance_schema |
+| phonebook          |
+| product            |
+| projectdb          |
+| spring_jdbc        |
+| spring_jdbc1       |
+| sss                |
+| sss1               |
+| student            |
+| student22222       |
+| student4444        |
+| sys                |
+| todo               |
+| todo_app           |
+| upgrade            |
+| upload_image       |
+| user1              |
+| user2              |
+| user3              |
+| user4              |
+| user5              |
+| user6              |
+| you                |
++--------------------+
+44 rows in set (0.04 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_aecitdb |
++-------------------+
+| customer          |
+| dummy_item_1      |
+| dummy_item_2      |
+| item              |
+| person            |
+| tempperson        |
++-------------------+
+6 rows in set (0.01 sec)
+
+mysql> desc customer;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_no   | int          | NO   | PRI | NULL    |       |
+| cust_name | varchar(20)  | YES  |     | NULL    |       |
+| state     | varchar(144) | YES  |     | NULL    |       |
+| Phone_no  | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> update customer
+    -> set Phone_no int check(length(Phone_no)=15);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int check(length(Phone_no)=15)' at line 2
+mysql> alter table
+    -> customer
+    -> modify Phone_no int check(length(Phone_no)=15);
+Query OK, 4 rows affected (0.06 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into customer
+    -> values
+    -> (1234,'binoy','WB',123456789012345);
+ERROR 1264 (22003): Out of range value for column 'Phone_no' at row 1
+mysql> select * from customer;
++---------+-----------+-------+----------+
+| cust_no | cust_name | state | Phone_no |
++---------+-----------+-------+----------+
+|    1001 | Prakesh   | UP    |     NULL |
+|    1002 | Mukesh    | AP    |     NULL |
+|    1003 | Murti     | UP    |     NULL |
+|    1004 | Rajen     | NULL  |     NULL |
++---------+-----------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> alter table
+    -> customer
+    -> alter column Phone_no number(15);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'number(15)' at line 3
+mysql> alter table
+    -> customer
+    -> alter column Phone_no varchar(15);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'varchar(15)' at line 3
+mysql> alter table
+    -> customer
+    -> modify column Phone_no varchar(15);
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_no   | int          | NO   | PRI | NULL    |       |
+| cust_name | varchar(20)  | YES  |     | NULL    |       |
+| state     | varchar(144) | YES  |     | NULL    |       |
+| Phone_no  | varchar(15)  | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table customer
+    -> change Phone_no Ph_number varchar(15);
+ERROR 3959 (HY000): Check constraint 'customer_chk_6' uses column 'Phone_no', hence column cannot be dropped or renamed.
+mysql> update table customer
+    -> set Phone_no Ph_number varchar(15);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table customer
+set Phone_no Ph_number varchar(15)' at line 1
+mysql> alter table customer
+    -> rename column Phone_no to Ph_number;
+ERROR 3959 (HY000): Check constraint 'customer_chk_6' uses column 'Phone_no', hence column cannot be dropped or renamed.
+mysql> alter table
+    -> customer
+    -> change Phone_no Ph_number varchar(15);
+ERROR 3959 (HY000): Check constraint 'customer_chk_6' uses column 'Phone_no', hence column cannot be dropped or renamed.
+mysql> desc customer;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| cust_no   | int          | NO   | PRI | NULL    |       |
+| cust_name | varchar(20)  | YES  |     | NULL    |       |
+| state     | varchar(144) | YES  |     | NULL    |       |
+| Phone_no  | varchar(15)  | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table
+    -> customer
+    -> change Phone_no Ph_number ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql> alter table
+    -> customer
+    -> change Phone_no Ph_number ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql> delete Phone_no from customer;
+ERROR 1109 (42S02): Unknown table 'phone_no' in MULTI DELETE
+mysql> select * from customer;
++---------+-----------+-------+----------+
+| cust_no | cust_name | state | Phone_no |
++---------+-----------+-------+----------+
+|    1001 | Prakesh   | UP    | NULL     |
+|    1002 | Mukesh    | AP    | NULL     |
+|    1003 | Murti     | UP    | NULL     |
+|    1004 | Rajen     | NULL  | NULL     |
++---------+-----------+-------+----------+
+4 rows in set (0.00 sec)
+
+mysql> alter table
+    -> customer
+    -> drop column Phone_no;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1001 | Prakesh   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
+|    1004 | Rajen     | NULL  |
++---------+-----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> delete from customer where cust_no=1004;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1001 | Prakesh   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
++---------+-----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> drop table customer;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| aecitdb            |
+| book               |
+| db                 |
+| dbms               |
+| ebook-app          |
+| eco                |
+| ecommerce          |
+| ecommerce_youtube  |
+| emp                |
+| enotes2            |
+| ert                |
+| ghor               |
+| hospital_2         |
+| information_schema |
+| joins              |
+| mydata             |
+| mydb               |
+| mysql              |
+| new_assignment     |
+| new_schema         |
+| new_schema262626   |
+| performance_schema |
+| phonebook          |
+| product            |
+| projectdb          |
+| spring_jdbc        |
+| spring_jdbc1       |
+| sss                |
+| sss1               |
+| student            |
+| student22222       |
+| student4444        |
+| sys                |
+| todo               |
+| todo_app           |
+| upgrade            |
+| upload_image       |
+| user1              |
+| user2              |
+| user3              |
+| user4              |
+| user5              |
+| user6              |
+| you                |
++--------------------+
+44 rows in set (0.00 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_aecitdb |
++-------------------+
+| dummy_item_1      |
+| dummy_item_2      |
+| item              |
+| person            |
+| tempperson        |
++-------------------+
+5 rows in set (0.00 sec)
+
+mysql> create table customer
+    -> (cust_no int primary key,cust_name varchar(20) check(upper(cust_name)=cust_name), state varchar(2) default 'WB' check(state in ('WB','UP','AP')));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_aecitdb |
++-------------------+
+| customer          |
+| dummy_item_1      |
+| dummy_item_2      |
+| item              |
+| person            |
+| tempperson        |
++-------------------+
+6 rows in set (0.00 sec)
+
+mysql> desc customer;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| cust_no   | int         | NO   | PRI | NULL    |       |
+| cust_name | varchar(20) | YES  |     | NULL    |       |
+| state     | varchar(2)  | YES  |     | WB      |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into customer
+    -> values
+    -> (1001,'Prakesh','UP'),
+    -> (1002,'Mukesh','AP'),
+    -> (1003,'Murti','UP'),
+    -> (1004,'Rajen','Wb');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1001 | Prakesh   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
+|    1004 | Rajen     | Wb    |
++---------+-----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into customer
+    -> values
+    -> (10050,'Prakesh','Up');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1001 | Prakesh   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
+|    1004 | Rajen     | Wb    |
+|   10050 | Prakesh   | Up    |
++---------+-----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into customer
+    -> values
+    -> (10051,'Prakesh','wb');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|    1001 | Prakesh   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
+|    1004 | Rajen     | Wb    |
+|   10050 | Prakesh   | Up    |
+|   10051 | Prakesh   | wb    |
++---------+-----------+-------+
+6 rows in set (0.00 sec)
+
+mysql> create table item2(cust_no int primary key,Cust_name varchar(23) check(upper(cust_name)=cust_name),state varchar(2) default='WB' check(state='WB' or state='UP' or state='AP'));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='WB' check(state='WB' or state='UP' or state='AP'))' at line 1
+mysql> create table item2(cust_no int primary key,Cust_name varchar(23) check(upper(cust_name)=cust_name),state varchar(2) default='WB' check(state='WB' or state='UP' or state='AP')));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='WB' check(state='WB' or state='UP' or state='AP')))' at line 1
+mysql> create table item2(cust_no int primary key,Cust_name varchar(23) check(upper(cust_name)=cust_name),state varchar(2) check(state='WB' or state='UP' or state='AP') default='WB');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='WB')' at line 1
+mysql> create table item2(cust_no int primary key,Cust_name varchar(23) check(upper(cust_name)=cust_name),state varchar(2) check(state='WB' or state='UP' or state='AP') default=='WB');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=='WB')' at line 1
+mysql> create table item2(cust_no int primary key,Cust_name varchar(23) check(upper(cust_name)=cust_name),state varchar(20) check(state='WB' or state='UP' or state='AP') default='WB');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='WB')' at line 1
+mysql> create table suraj(cust_no int primary key,cust_name varchar(23) check(upper(cust_name)=cust_name),state varchar(20) check(state='WB' or state='UP' or state='AP') default='WB');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='WB')' at line 1
+mysql> create table suraj(cust_no int primary key,cust_name varchar(23) check(upper(cust_name)=cust_name),state varchar(20) check(state='WB' or state='UP' or state='AP'));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc suraj;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| cust_no   | int         | NO   | PRI | NULL    |       |
+| cust_name | varchar(23) | YES  |     | NULL    |       |
+| state     | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into customer
+    -> values
+    -> (90,'Prakesh','rt');
+ERROR 3819 (HY000): Check constraint 'customer_chk_2' is violated.
+mysql> insert into suraj
+    -> values
+    -> (90,'Prakesh','rt');
+ERROR 3819 (HY000): Check constraint 'suraj_chk_2' is violated.
+mysql> insert into item2
+    -> values
+    -> (90,'Prakesh','wb');
+ERROR 1146 (42S02): Table 'aecitdb.item2' doesn't exist
+mysql> insert into suraj
+    -> values
+    -> (90,'Prakesh','wb');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from suraj;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|      90 | Prakesh   | wb    |
++---------+-----------+-------+
+1 row in set (0.00 sec)
+
+mysql> insert into suraj
+    -> values
+    -> (20,'Prakesh','Wb');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into suraj
+    -> values
+    -> (20,'Prakesh','up');
+ERROR 1062 (23000): Duplicate entry '20' for key 'suraj.PRIMARY'
+mysql> insert into suraj
+    -> values
+    -> (21,'Prakesh','up');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from suraj;
++---------+-----------+-------+
+| cust_no | cust_name | state |
++---------+-----------+-------+
+|      20 | Prakesh   | Wb    |
+|      21 | Prakesh   | up    |
+|      90 | Prakesh   | wb    |
++---------+-----------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table customer
+    -> add column Phone_no varchar(15);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++---------+-----------+-------+----------+
+| cust_no | cust_name | state | Phone_no |
++---------+-----------+-------+----------+
+|    1001 | Prakesh   | UP    | NULL     |
+|    1002 | Mukesh    | AP    | NULL     |
+|    1003 | Murti     | UP    | NULL     |
+|    1004 | Rajen     | Wb    | NULL     |
+|   10050 | Prakesh   | Up    | NULL     |
+|   10051 | Prakesh   | wb    | NULL     |
++---------+-----------+-------+----------+
+6 rows in set (0.00 sec)
+
+mysql> insert into customer
+    -> values
+    -> (45,'debashis','up',1233455);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer;
++---------+-----------+-------+----------+
+| cust_no | cust_name | state | Phone_no |
++---------+-----------+-------+----------+
+|      45 | debashis  | up    | 1233455  |
+|    1001 | Prakesh   | UP    | NULL     |
+|    1002 | Mukesh    | AP    | NULL     |
+|    1003 | Murti     | UP    | NULL     |
+|    1004 | Rajen     | Wb    | NULL     |
+|   10050 | Prakesh   | Up    | NULL     |
+|   10051 | Prakesh   | wb    | NULL     |
++---------+-----------+-------+----------+
+7 rows in set (0.00 sec)
+
+mysql> alter table customer
+    -> change Phone_no Ph_number;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> alter table customer
+    -> change Phone_no Ph_number varchar(15);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++---------+-----------+-------+-----------+
+| cust_no | cust_name | state | Ph_number |
++---------+-----------+-------+-----------+
+|      45 | debashis  | up    | 1233455   |
+|    1001 | Prakesh   | UP    | NULL      |
+|    1002 | Mukesh    | AP    | NULL      |
+|    1003 | Murti     | UP    | NULL      |
+|    1004 | Rajen     | Wb    | NULL      |
+|   10050 | Prakesh   | Up    | NULL      |
+|   10051 | Prakesh   | wb    | NULL      |
++---------+-----------+-------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> rename customer to customer_yourname;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'customer to customer_yourname' at line 1
+mysql> rename table customer to customer_yourname;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> rename item to item_yourname;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'item to item_yourname' at line 1
+mysql> rename table item to item_yourname;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_aecitdb |
++-------------------+
+| customer_yourname |
+| dummy_item_1      |
+| dummy_item_2      |
+| item_yourname     |
+| person            |
+| suraj             |
+| tempperson        |
++-------------------+
+7 rows in set (0.00 sec)
+
+mysql> desc item_yourname;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| i_no    | int           | NO   | PRI | NULL    |       |
+| i_name  | varchar(20)   | NO   |     | NULL    |       |
+| i_price | decimal(10,0) | YES  |     | NULL    |       |
+| i_qty   | int           | YES  |     | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> truncate table customer_yourname;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from customer_yourname;
+Empty set (0.00 sec)
+
+mysql> drop table customer_yourname;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> drop_table item_yourname;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'drop_table item_yourname' at line 1
+mysql> drop table item_yourname;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> drop table dummy_item_2;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_aecitdb |
++-------------------+
+| dummy_item_1      |
+| person            |
+| suraj             |
+| tempperson        |
++-------------------+
+4 rows in set (0.00 sec)
+
+mysql>

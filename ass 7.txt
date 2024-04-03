@@ -1,0 +1,388 @@
+
+mysql> select EMPNAME
+    -> from employee join
+    -> department on employee.DEPTNO=department.DEPTNO
+    -> where DNAME='OPERATION' and DNAME='SALES';
+Empty set (0.01 sec)
+
+mysql> select EMPNAME
+    -> from employee join
+    -> department on employee.DEPTNO=department.DEPTNO
+    -> where DNAME='OPERATION' or DNAME='SALES';
++---------+
+| EMPNAME |
++---------+
+| Allen   |
+| Ward    |
+| Marti   |
+| Blake   |
+| James   |
++---------+
+5 rows in set (0.01 sec)
+
+mysql>
+mysql> select * from employee
+    -> where employee.HIREDATE<'1981/09/30';
+Empty set, 1 warning (0.00 sec)
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.33 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use aecitdb;
+Database changed
+mysql> select EMPNAME
+    -> from employee
+    -> where employee.EMPNO is not employee.MGR;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee.MGR' at line 3
+mysql> select EMPNAME
+    -> from employee
+    -> where employee.EMPNO <> employee.MGR;
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Allen   |
+| Ward    |
+| Jones   |
+| Marti   |
+| Blake   |
+| Clark   |
+| Wong    |
+| King    |
+| Adam    |
+| James   |
+| Ford    |
+| Mile    |
++---------+
+13 rows in set (0.00 sec)
+
+mysql> select EMPNAME
+    -> from employee e join employee m on e.EMPNO=m.MGR
+    -> where e.EMPNO not in m.MGR;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'm.MGR' at line 3
+mysql> select EMPNAME
+    -> from employee e join employee m on e.EMPNO=m.MGR
+    -> where e.EMPNO <> m.MGR;
+ERROR 1052 (23000): Column 'EMPNAME' in field list is ambiguous
+mysql> select e.EMPNAME
+    -> from employee e join employee m on e.EMPNO=m.MGR
+    -> where e.EMPNO <> m.MGR;
+Empty set (0.00 sec)
+
+mysql> select EMPNAME
+    -> from employee
+    -> minus
+    -> select EMPNAME
+    -> from employee
+    -> where employee.EMPNO=employee.MGR;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select EMPNAME
+from employee
+where employee.EMPNO=employee.MGR' at line 4
+mysql> select EMPNAME
+    -> from employee
+    -> where JOB <> 'Manager';
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Allen   |
+| Ward    |
+| Marti   |
+| Wong    |
+| King    |
+| Adam    |
+| James   |
+| Ford    |
+| Mile    |
++---------+
+10 rows in set (0.00 sec)
+
+mysql> select EMPNAME
+    -> from employee
+    -> where JOB = 'Salesman' and JOB='Analyst';
+Empty set (0.00 sec)
+
+mysql> select EMPNAME
+    -> from employee
+    -> where JOB = 'Salesman' or JOB='Analyst';
++---------+
+| EMPNAME |
++---------+
+| Allen   |
+| Ward    |
+| Marti   |
+| Wong    |
+| Ford    |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.EMPNO=7369 or e.EMPNO=7521 or e.EMPNO=7839 or e.EMPNO=7934 or e.EMPNO=7788;
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Ward    |
+| Wong    |
+| King    |
+| Mile    |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e join department d on e.DEPTNO=d.DEPTNO
+    -> where d.DEPTNO <> 10 or d.DEPTNO <> 30 or d.DEPTNO <> 40;
++---------+
+| EMPNAME |
++---------+
+| Clark   |
+| King    |
+| Mile    |
+| Smith   |
+| Jones   |
+| Wong    |
+| Adam    |
+| Ford    |
+| Allen   |
+| Ward    |
+| Marti   |
+| Blake   |
+| James   |
++---------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e where e.DEPTNO not in (30,40,10);
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Jones   |
+| Wong    |
+| Adam    |
+| Ford    |
++---------+
+5 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.HIREDATE>='1981/06/30' and e.HIREDATE<='1981/12/31';
+Empty set, 2 warnings (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.HIREDATE between '1981/06/30' and '1981/12/31';
+Empty set, 26 warnings (0.01 sec)
+
+mysql> select distinct
+    -> JOB from employee;
++-----------+
+| JOB       |
++-----------+
+| Clerk     |
+| Salesman  |
+| Manager   |
+| Analyst   |
+| President |
++-----------+
+5 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.COMM is null;
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Jones   |
+| Blake   |
+| Clark   |
+| Wong    |
+| King    |
+| Adam    |
+| James   |
+| Ford    |
+| Mile    |
++---------+
+10 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME,e.JOB
+    -> from employee e
+    -> where e.MGR is null;
+Empty set (0.00 sec)
+
+mysql> select * from employee;
++-------+---------+-----------+------+------------+------+------+--------+
+| EMPNO | EMPNAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+---------+-----------+------+------------+------+------+--------+
+|  7369 | Smith   | Clerk     | 7902 | 1989-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen   | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward    | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones   | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti   | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake   | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark   | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong    | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King    | President | 7876 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam    | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James   | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford    | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile    | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+---------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.DEPTNO is null;
+Empty set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.COMM is not null;
++---------+
+| EMPNAME |
++---------+
+| Allen   |
+| Ward    |
+| Marti   |
++---------+
+3 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.EMPNAME like 'S%' or '%S';
++---------+
+| EMPNAME |
++---------+
+| Smith   |
++---------+
+1 row in set, 1 warning (0.01 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.EMPNAME like 'S%' or like '%S';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'like '%S'' at line 3
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.EMPNAME like 'S%' or  e.EMPNAME like '%S';
++---------+
+| EMPNAME |
++---------+
+| Smith   |
+| Jones   |
+| James   |
++---------+
+3 rows in set (0.00 sec)
+
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.EMPNAME start with 'S%' or  end with '%S';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'start with 'S%' or  end with '%S'' at line 3
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.EMPNAME start with 'S%' or  e.EMPNAME  end with '%S';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'start with 'S%' or  e.EMPNAME  end with '%S'' at line 3
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.EMPNAME start with 'S' or  e.EMPNAME  end with 'S';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'start with 'S' or  e.EMPNAME  end with 'S'' at line 3
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.EMPNAME start with 'S' or   end with 'S';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'start with 'S' or   end with 'S'' at line 3
+mysql> select e.EMPNAME
+    -> from employee e
+    -> where e.EMPNAME like '_i%';
++---------+
+| EMPNAME |
++---------+
+| King    |
+| Mile    |
++---------+
+2 rows in set (0.00 sec)
+
+mysql> select count(EMPNAME)
+    -> from employee
+    -> group by employee ;
+ERROR 1054 (42S22): Unknown column 'employee' in 'group statement'
+mysql> select count(EMPNAME)
+    -> from employee;
++----------------+
+| count(EMPNAME) |
++----------------+
+|             13 |
++----------------+
+1 row in set (0.01 sec)
+
+mysql> select count(EMPNAME) as number_of_employee
+    -> from employee;
++--------------------+
+| number_of_employee |
++--------------------+
+|                 13 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select distinct count(JOB) as department_numner
+    -> from employee;
++-------------------+
+| department_numner |
++-------------------+
+|                13 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select  count ( distinct JOB) as department_numner
+    -> from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'distinct JOB) as department_numner
+from employee' at line 1
+mysql> select count(distinct JOB) as tanisha
+    -> from employee;
++---------+
+| tanisha |
++---------+
+|       5 |
++---------+
+1 row in set (0.01 sec)
+
+mysql> select sum(SAL)
+    -> as salary
+    -> from employee;
++--------+
+| salary |
++--------+
+|  27725 |
++--------+
+1 row in set (0.01 sec)
+
+mysql> select max(SAL) as maximum_salary,
+    -> min(SAL) as minimum_salary, avg(SAL) as Average
+    -> from employee;
++----------------+----------------+-----------+
+| maximum_salary | minimum_salary | Average   |
++----------------+----------------+-----------+
+|           5000 |            950 | 2132.6923 |
++----------------+----------------+-----------+
+1 row in set (0.01 sec)
+
+mysql> select max(SAL) as max_sales_man
+    -> from employee
+    -> where employee.JOB='Salesman';
++---------------+
+| max_sales_man |
++---------------+
+|          1600 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql>
