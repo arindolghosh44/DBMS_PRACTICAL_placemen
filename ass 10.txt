@@ -1,31 +1,4 @@
-Enter password: ********
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 8
-Server version: 8.0.33 MySQL Community Server - GPL
-
-Copyright (c) 2000, 2023, Oracle and/or its affiliates.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-mysql> use aecitdb;
-Database changed
-mysql> create table salesman
-    -> (salesman id int primary key,name varchar(34),city varchar(34),commision decimal);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id int primary key,name varchar(34),city varchar(34),commision decimal)' at line 2
-mysql> create table salesman
-    -> vales
-    -> (salesman id int primary key,name varchar(34),city varchar(34),commision decimal);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'vales
-(salesman id int primary key,name varchar(34),city varchar(34),commision d' at line 2
-mysql> create table salesman
-    -> (salesman id int primary key,name varchar(34),city varchar(34),comision decimal(10));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id int primary key,name varchar(34),city varchar(34),comision decimal(10))' at line 2
-mysql> (salesman_id int primary key,name varchar(34),city varchar(34),comision decimal(10));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'salesman_id int primary key,name varchar(34),city varchar(34),comision decimal(1' at line 1
+////////////////////////////////////////////////1
 mysql> create table salesman
     -> (salesman_id int primary key,name varchar(34),city varchar(34),comision decimal);
 Query OK, 0 rows affected (0.68 sec)
@@ -41,6 +14,7 @@ mysql> desc salesman;
 +-------------+---------------+------+-----+---------+-------+
 4 rows in set (0.56 sec)
 
+/////////////////////////////////////////////////1
 mysql> insert into salesman
     -> values
     -> (5001,'James Hong','New York',0.15);
@@ -71,10 +45,10 @@ mysql> desc salesman;
 +-------------+-------------+------+-----+---------+-------+
 4 rows in set (0.01 sec)
 
-mysql> insert into salesman
-    -> values
-    -> (5001,'James Hong','New York',0.15);
-ERROR 1062 (23000): Duplicate entry '5001' for key 'salesman.PRIMARY'
+
+
+
+/////////////////////////////////////////////////////////////////////////
 mysql> update salesman
     -> set Commision=0.15
     -> where salesman_id=5001;
@@ -89,38 +63,8 @@ mysql> select * from salesman;
 +-------------+------------+----------+-----------+
 1 row in set (0.00 sec)
 
-mysql>
-Enter password: ********
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 8
-Server version: 8.0.33 MySQL Community Server - GPL
 
-Copyright (c) 2000, 2023, Oracle and/or its affiliates.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-mysql> use aecitdb;
-Database changed
-mysql> insert into salesman
-    -> values
-    -> (5002,'Nail Knite','Paris',0.13),
-    -> (5005,'Pit Alex''London',0.11),
-    -> (5006,'Mc Lyon','Paris,0.14),
-    '> ;
-    '> ';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 7
-mysql> insert into salesman
-    -> values
-    -> (5002,'Nail Knite','Paris',0.13),
-    -> (5005,'Pit Alex''London',0.11),
-    -> (5006,'Mc Lyon','Paris',0.14),
-    -> (5007,'Paul Adam','Rome',0.13),
-    -> (5003,'Lausen Hen','San Josh',0.12);
-ERROR 1136 (21S01): Column count doesn't match value count at row 2
+/////////////////////////////////////////////////////////////////////////
 mysql> select * from salesman;
 +-------------+------------+----------+-----------+
 | salesman_id | name       | city     | Commision |
@@ -129,31 +73,18 @@ mysql> select * from salesman;
 +-------------+------------+----------+-----------+
 1 row in set (0.01 sec)
 
-mysql> insert into salesman
-    -> values
-    -> (5002,'Nail Knite','Paris',0.13),
-    -> (5005,'Pit Alex''London',0.11),
-    -> (5006,'Mc Lyon','Paris',0.14),
-    -> (5007,'Paul Adam','Rome',0.13),
-    -> (5003,'Lausen Hen','San Josh',0.12);
-ERROR 1136 (21S01): Column count doesn't match value count at row 2
-mysql> values
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+
+
+//////////////////////////////////////////////////////////////////////////
 mysql> insert into salesman
     -> values
     -> (5002,'Nail Knite','Paris',0.13);
 Query OK, 1 row affected (0.02 sec)
 
-mysql> insert into salesman
-    -> values
-    -> (5005,'Pit Alex''London',0.11),
-    -> (5006,'Mc Lyon','Paris',0.14);
-ERROR 1136 (21S01): Column count doesn't match value count at row 1
-mysql> insert into salesman
-    -> values
-    -> (5005,'Pit Alex''London',0.11);
-ERROR 1136 (21S01): Column count doesn't match value count at row 1
+
+
+//////////////////////////////////////////////////////////////////////////////
+
 mysql> insert into salesman
     -> values
     -> (5005,'Pit Alex','London',0.11);
@@ -180,48 +111,9 @@ mysql> select * from salesman;
 +-------------+------------+----------+-----------+
 6 rows in set (0.00 sec)
 
-mysql> create table order(ord_no int primary key,purch_amt float,ord_date date,customer_id int,salesman_id int);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order(ord_no int primary key,purch_amt float,ord_date date,customer_id int,sales' at line 1
-mysql> create table order(ord_no int primary key,purch_amt float,ord_date date,customer_id int,salesman_id int);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order(ord_no int primary key,purch_amt float,ord_date date,customer_id int,sales' at line 1
-mysql> create table order
-    -> (ord_no int primary key,purch_amt float,ord_date date,customer_id int,salesman_id int);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order
-(ord_no int primary key,purch_amt float,ord_date date,customer_id int,sale' at line 1
-mysql> create table order
-    -> (ord_no int primary key , purch_amt float , ord_date date , customer_id int , salesman_id int );
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order
-(ord_no int primary key , purch_amt float , ord_date date , customer_id in' at line 1
-mysql> create table order
-    -> (ord_no int primary key , purch_amt float , ord_date date , customer_id int , salesman_id int );
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order
-(ord_no int primary key , purch_amt float , ord_date date , customer_id in' at line 1
-mysql> create table order
-    -> (ord_no int primary key , purch_amt float , ord_date DATE , customer_id int , salesman_id int );
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order
-(ord_no int primary key , purch_amt float , ord_date DATE , customer_id in' at line 1
-mysql> create table order
-    -> (ord_no int  not null , purch_amt float , ord_date DATE not null , customer_id int , salesman_id int );
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order
-(ord_no int  not null , purch_amt float , ord_date DATE not null , custome' at line 1
-mysql> create table order
-    -> (ord_no int  not null , purch_amt float , ord_date DATE not null , customer_id int , salesman_id int   primary key(ord_no) );
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order
-(ord_no int  not null , purch_amt float , ord_date DATE not null , custome' at line 1
-mysql>
-Enter password: ********
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 9
-Server version: 8.0.33 MySQL Community Server - GPL
 
-Copyright (c) 2000, 2023, Oracle and/or its affiliates.
 
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
+/////////////////////////////////////////////////////////////////////////////////////
 mysql> use aecitdb;
 Database changed
 mysql> CREATE TABLE ORDER_TABLE (
@@ -233,7 +125,9 @@ mysql> CREATE TABLE ORDER_TABLE (
     -> );
 Query OK, 0 rows affected (0.06 sec)
 
-mysql>
+
+
+///////////////////////////////////////////////////////////////////////////////////2
 mysql> INSERT INTO ORDER_TABLE (ord_no, purch_amt, ord_date, customer_id, salesman_id)
     -> VALUES
     ->     (70001, 150.5, '2012-10-05', 3005, 5002),
@@ -347,6 +241,12 @@ mysql> select * from salesman;
 +-------------+------------+----------+-----------+
 6 rows in set (0.00 sec)
 
+
+
+
+
+
+//////////////////////////////////////////////////////////4
 mysql> select name,Commision from salesman;
 +------------+-----------+
 | name       | Commision |
@@ -360,8 +260,10 @@ mysql> select name,Commision from salesman;
 +------------+-----------+
 6 rows in set (0.00 sec)
 
-mysql> select ord_date,salesman_id,ord_no,purch_amt from order;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order' at line 1
+
+
+
+/////////////////////////////////////////////////////5
 mysql> select ord_date,salesman_id,ord_no,purch_amt from order_table;
 +------------+-------------+--------+-----------+
 | ord_date   | salesman_id | ord_no | purch_amt |
@@ -381,8 +283,12 @@ mysql> select ord_date,salesman_id,ord_no,purch_amt from order_table;
 +------------+-------------+--------+-----------+
 12 rows in set (0.00 sec)
 
-mysql> select  distinct salesman_id, distinct ord_no, distinct purch_amt from order_table;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'distinct ord_no, distinct purch_amt from order_table' at line 1
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////6
 mysql> select  distinct salesman_id,  ord_no, purch_amt from order_table;
 +-------------+--------+-----------+
 | salesman_id | ord_no | purch_amt |
@@ -402,6 +308,9 @@ mysql> select  distinct salesman_id,  ord_no, purch_amt from order_table;
 +-------------+--------+-----------+
 12 rows in set (0.00 sec)
 
+
+
+///////////////////////////////////////////////////////////////////////////
 mysql> SELECT DISTINCT salesman_id
     -> FROM ORDER_TABLE;
 +-------------+
@@ -416,22 +325,10 @@ mysql> SELECT DISTINCT salesman_id
 +-------------+
 6 rows in set (0.01 sec)
 
-mysql>
-Enter password: ********
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 8
-Server version: 8.0.33 MySQL Community Server - GPL
 
-Copyright (c) 2000, 2023, Oracle and/or its affiliates.
 
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
 
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-mysql> use aecitdb;
-Database changed
+//////////////////////////////////////////////////////////7
 mysql> select name,city
     -> from salesman
     -> where city='Paris';
@@ -443,6 +340,10 @@ mysql> select name,city
 +------------+-------+
 2 rows in set (0.02 sec)
 
+
+
+
+////////////////////////////////////////////////////////8
 mysql> select * from customer
     -> where
     -> grade=200;
@@ -455,6 +356,10 @@ mysql> select * from customer
 +-------------+--------------+------------+-------+-------------+
 3 rows in set (0.00 sec)
 
+
+
+
+//////////////////////////////////////////////////////////////////9
 mysql> select ord_no as order_number,ord_date as order_date,purch_amt as purchase_amount
     -> from order_table where salesman_id=5001;
 +--------------+------------+-----------------+
@@ -467,6 +372,10 @@ mysql> select ord_no as order_number,ord_date as order_date,purch_amt as purchas
 +--------------+------------+-----------------+
 4 rows in set (0.59 sec)
 
+
+
+
+/////////////////////////////////////////////////////////////10
 mysql> select cust_name from customer where grade>100;
 +----------------+
 | cust_name      |
@@ -479,6 +388,11 @@ mysql> select cust_name from customer where grade>100;
 +----------------+
 5 rows in set (0.00 sec)
 
+
+
+
+
+///////////////////////////////////////////////////////////////////////////11
 mysql> select cust_name from customer where grade>100 and city='New York';
 +------------+
 | cust_name  |
@@ -487,6 +401,12 @@ mysql> select cust_name from customer where grade>100 and city='New York';
 +------------+
 1 row in set (0.00 sec)
 
+
+
+
+
+
+////////////////////////////////////////////////////////////////12
 mysql> select cust_name from customer where grade>100 or city='New York';
 +----------------+
 | cust_name      |
@@ -500,8 +420,8 @@ mysql> select cust_name from customer where grade>100 or city='New York';
 +----------------+
 6 rows in set (0.00 sec)
 
-mysql> select cust_name from customer where grade is not >100 or city='New York';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '>100 or city='New York'' at line 1
+
+///////////////////////////////////////////////////////////////////////////
 mysql> select cust_name from customer where grade <=100 or city='New York';
 +---------------+
 | cust_name     |

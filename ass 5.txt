@@ -1,18 +1,6 @@
-Enter password: ********
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 9
-Server version: 8.0.33 MySQL Community Server - GPL
-
-Copyright (c) 2000, 2023, Oracle and/or its affiliates.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
 mysql> use aecitdb;
 Database changed
+///1
 mysql> create table EMPLOYEE(EMPNO int primary key check(length(EMPNO)=4),EMPNAME varchar(10),JOB varchar(9),MGR int check(length(MGR)=4),HIREDATE DATE,SAL int check(length(SAL)>=2 and length(SAL)<=7),COMM int check(length(COMM)>=2 and length(COMM)<=7),DEPTNO int check(length(DEPTNO)=2));
 Query OK, 0 rows affected (0.04 sec)
 
@@ -31,29 +19,7 @@ mysql> desc employee;
 +----------+-------------+------+-----+---------+-------+
 8 rows in set (0.04 sec)
 
-mysql>
-Enter password: ********
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 8
-Server version: 8.0.33 MySQL Community Server - GPL
-
-Copyright (c) 2000, 2023, Oracle and/or its affiliates.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-mysql> use aecitdb;
-Database changed
-mysql> create table DEPARTMENT (DEPTNO int check(lenght(DEPTNO)=2),DNAME varchar(14) not null,LOC varchar(13) not null);
-ERROR 3814 (HY000): An expression of a check constraint 'department_chk_1' contains disallowed function: `lenght`.
-mysql> create table DEPARTMENT (DEPTNO int check(length(DEPTNO)=2),DNAME varchar(14) not null,LOC varchar(13) not null);
-Query OK, 0 rows affected (0.04 sec)
-
-mysql> use tables;
-ERROR 1049 (42000): Unknown database 'tables'
+/////////////////////////////////////////////////////////
 mysql> show tables;
 +-------------------+
 | Tables_in_aecitdb |
@@ -67,6 +33,11 @@ mysql> show tables;
 +-------------------+
 6 rows in set (0.03 sec)
 
+
+
+
+
+
 mysql> desc department;
 +--------+-------------+------+-----+---------+-------+
 | Field  | Type        | Null | Key | Default | Extra |
@@ -77,6 +48,9 @@ mysql> desc department;
 +--------+-------------+------+-----+---------+-------+
 3 rows in set (0.02 sec)
 
+
+
+///////////////////////////////////2
 mysql> alter table department add primary key(DEPTNO);
 Query OK, 0 rows affected (0.06 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -91,6 +65,8 @@ mysql> desc department;
 +--------+-------------+------+-----+---------+-------+
 3 rows in set (0.00 sec)
 
+
+///3,4
 mysql> alter table employee add foreign key(DEPTNO) references department(DEPTNO);
 Query OK, 0 rows affected (0.05 sec)
 Records: 0  Duplicates: 0  Warnings: 0
@@ -120,6 +96,7 @@ mysql> desc department;
 +--------+-------------+------+-----+---------+-------+
 3 rows in set (0.00 sec)
 
+
 mysql> insert into department
     -> values
     -> (10,'HRD','Houston'),
@@ -140,18 +117,8 @@ mysql> select * from department;
 +--------+-----------+---------+
 4 rows in set (0.00 sec)
 
-mysql> insert into department
-    -> values
-    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,null,20);
-ERROR 1136 (21S01): Column count doesn't match value count at row 1
-mysql> insert into department
-    -> values
-    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,' ',20);
-ERROR 1136 (21S01): Column count doesn't match value count at row 1
-mysql> insert into employee
-    -> values
-    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,' ',20);
-ERROR 1366 (HY000): Incorrect integer value: ' ' for column 'COMM' at row 1
+
+///////////////////////////////////////////////////////////
 mysql> insert into employee
     -> values
     -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,null,20);
@@ -165,56 +132,10 @@ mysql> select * from employee;
 +-------+---------+-------+------+------------+------+------+--------+
 1 row in set (0.00 sec)
 
-mysql> insert into employee
-    -> values
-    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,' ',20),
-    -> (7369,'Smith','Clerk',7920,'1989/12/17',1000,' ',20);
-ERROR 1366 (HY000): Incorrect integer value: ' ' for column 'COMM' at row 1
+//////////////////////////////////////////////////////////////////////////
 mysql> insert into employee
     -> values
     -> (7499,'Allen','Salesman',7698,'1989/02/20',1600,300,30);
-Query OK, 1 row affected, 1 warning (0.01 sec)
-
-mysql> insert into employee
-    -> values
-    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30),
-    -> (7566,'Jones','Manager',7839,'1989/03/02',2975,null,20),
-    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30),
-    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30),
-    -> (7698,'Blake','Manager',7839,'1989/05/01',2850,null,30),
-    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10),
-    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10),
-    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10);
-ERROR 1062 (23000): Duplicate entry '7654' for key 'employee.PRIMARY'
-mysql> insert into employee
-    -> values
-    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30),
-    -> (7566,'Jones','Manager',7839,'1989/03/02',2975,null,20),
-    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30),
-    -> (7698,'Blake','Manager',7839,'1989/05/01',2850,null,30),
-    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10),
-    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20),
-    -> (7839,'King','President',null,'1989/11/17',5000,null,10),
-    -> (7844,'Turn','Salesman',7698,'1989/09/08',1500,0,30),
-    -> (7876,'Adam','Clerk',7788,'1987/05/23',1100,null,20),
-    -> (7900,'James','Clerk',7689,'1989/12/03',950,null,30),
-    -> (7902,'Ford','Analyst',7566,'1989/12/03',3000,null,20),
-    -> (7934,'Mile','Clerk',7782,'1986/01/23',1300,null,10);
-ERROR 3819 (HY000): Check constraint 'employee_chk_4' is violated.
-mysql> insert into employee
-    -> values
-    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30),
-    -> (7566,'Jones','Manager',7839,'1989/03/02',2975,null,20),
-    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30),
-    -> (7698,'Blake','Manager',7839,'1989/05/01',2850,null,30),
-    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10),
-    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20),
-    -> (7839,'King','President',null,'1989/11/17',5000,null,10),
-    -> (7844,'Turn','Salesman',7698,'1989/09/08',1500,0,30),
-    -> (7876,'Adam','Clerk',7788,'1987/05/23',1100,null,20),
-    -> (7900,'James','Clerk',7689,'1989/12/03',0950,null,30),
-    -> (7834,'King','President',null,'1989/11/17',5000,null,10);
-ERROR 3819 (HY000): Check constraint 'employee_chk_4' is violated.
 mysql> insert into employee
     -> values
     -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30);
@@ -243,24 +164,10 @@ Query OK, 1 row affected, 1 warning (0.00 sec)
 mysql> insert into employee
     -> values
     -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20),
-    -> (7839,'King','President',null,'1989/11/17',5000,null,10),
-    -> (7844,'Turn','Salesman',7698,'1989/09/08',1500,0,30);
-ERROR 3819 (HY000): Check constraint 'employee_chk_4' is violated.
-mysql> insert into employee
-    -> values
-    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20),
     -> (7839,'King','President',null,'1989/11/17',5000,null,10);
 Query OK, 2 rows affected, 2 warnings (0.00 sec)
 Records: 2  Duplicates: 0  Warnings: 2
 
-mysql> insert into employee
-    -> values
-    -> (7844,'Turn','Salesman',7698,'1989/09/08',1500,00,30);
-ERROR 3819 (HY000): Check constraint 'employee_chk_4' is violated.
-mysql> insert into employee
-    -> values
-    -> (7844,'Turn','Salesman',7698,'1989/09/08',1500,0000,30);
-ERROR 3819 (HY000): Check constraint 'employee_chk_4' is violated.
 mysql> insert into employee
     -> values
     -> (7876,'Adam','Clerk',7788,'1987/05/23',1100,null,20);
@@ -298,8 +205,8 @@ mysql> select * from employee;
 +-------+---------+-----------+------+------------+------+------+--------+
 13 rows in set (0.00 sec)
 
-mysql> select EMPNAME,DEPTNO,DNAME from employee,department ;
-ERROR 1052 (23000): Column 'DEPTNO' in field list is ambiguous
+
+///////////////////////////////////////////////7
 mysql> select EMPNAME,department.DEPTNO,DNAME from employee,department;
 +---------+--------+-----------+
 | EMPNAME | DEPTNO | DNAME     |
@@ -359,6 +266,8 @@ mysql> select EMPNAME,department.DEPTNO,DNAME from employee,department;
 +---------+--------+-----------+
 52 rows in set (0.00 sec)
 
+
+/////////////////////////////////////////////////////8
 mysql> select EMPNAME,department.DEPTNO,DNAME from employee,department where  department.DEPTNO=employee.DEPTNO;
 +---------+--------+----------+
 | EMPNAME | DEPTNO | DNAME    |
@@ -379,6 +288,8 @@ mysql> select EMPNAME,department.DEPTNO,DNAME from employee,department where  de
 +---------+--------+----------+
 13 rows in set (0.00 sec)
 
+
+/////////////////////////////////////////////9
 mysql> select JOB,LOC from employee,department where department.DEPTNO=30;
 +-----------+---------+
 | JOB       | LOC     |
@@ -438,22 +349,6 @@ mysql> select JOB,LOC from employee,department where  department.DEPTNO=employee
 +----------+---------+
 5 rows in set (0.00 sec)
 
-mysql> select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=employee.DEPTNO and employee.COMM <> null;
-Empty set (0.01 sec)
-
-mysql> select EMPNAME,DNAME,LOC from employee,department where   employee.COMM <> null;
-Empty set (0.00 sec)
-
-mysql> select EMPNAME,DNAME,LOC from employee,department where   employee.COMM = null;
-Empty set (0.00 sec)
-
-mysql> select EMPNAME,DNAME,LOC from employee,department where   employee.COMM = not null;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'not null' at line 1
-mysql> select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=employee.DEPTNO and employee.COMM <> null;
-Empty set (0.00 sec)
-
-mysql> select employee.EMPNAME,department.DNAME,department.LOC from employee,department where employee.COMM <> null;
-Empty set (0.00 sec)
 
 mysql> select employee.EMPNAME,department.DNAME,department.LOC from employee,department where employee.COMM=300;
 +---------+-----------+---------+
@@ -495,6 +390,7 @@ mysql> desc employee;
 +----------+-------------+------+-----+---------+-------+
 8 rows in set (0.00 sec)
 
+////////////////////////////////////////10
 mysql> select EMPNAME,DNAME from employee,department where EMPNAME like '%A%';
 +---------+-----------+
 | EMPNAME | DNAME     |
@@ -719,14 +615,7 @@ mysql> select EMPNAME,DNAME,LOC
 +---------+-----------+---------+
 12 rows in set (0.00 sec)
 
-mysql> select EMPNAME,DNAME,LOC
-    -> from employee,department
-    -> where employee.DEPTNO=department.DEPTNO COMM is not null;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'COMM is not null' at line 3
-mysql> select EMPNAME,DNAME,LOC
-    -> from employee,department
-    -> select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=employee.DEPTNO and COMM <> null;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select EMPNAME,DNAME,LOC from employee,department where  department.DEPTNO=emplo' at line 3
+//////////////////////////////////////////////////////
 mysql> select EMPNAME,DNAME,LOC
     -> from employee,department
     -> where employee.DEPTNO=department.DEPTNO and COMM is not null;
@@ -738,5 +627,3 @@ mysql> select EMPNAME,DNAME,LOC
 | Marti   | SALES | Chicago |
 +---------+-------+---------+
 3 rows in set (0.00 sec)
-
-mysql>

@@ -1,18 +1,5 @@
-Enter password: ********
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 9
-Server version: 8.0.33 MySQL Community Server - GPL
 
-Copyright (c) 2000, 2023, Oracle and/or its affiliates.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-mysql> use aecitdb;
-Database changed
+//////////////////////////////////////////
 mysql> select EMPNAME
     -> from employee
     -> where COMM is null;
@@ -32,6 +19,8 @@ mysql> select EMPNAME
 +---------+
 10 rows in set (0.01 sec)
 
+
+///////////////////////////////////////1
 mysql> select *
     -> from employee
     -> where COMM is null;
@@ -51,28 +40,11 @@ mysql> select *
 +-------+---------+-----------+------+------------+------+------+--------+
 10 rows in set (0.00 sec)
 
-mysql> select EMPNAME,SAL+COMM
-    -> as Total_salary
-    -> from employee;
-+---------+--------------+
-| EMPNAME | Total_salary |
-+---------+--------------+
-| Smith   |         NULL |
-| Allen   |         1900 |
-| Ward    |         1750 |
-| Jones   |         NULL |
-| Marti   |         2650 |
-| Blake   |         NULL |
-| Clark   |         NULL |
-| Wong    |         NULL |
-| King    |         NULL |
-| Adam    |         NULL |
-| James   |         NULL |
-| Ford    |         NULL |
-| Mile    |         NULL |
-+---------+--------------+
-13 rows in set (0.01 sec)
 
+
+
+
+///////////////////////////////////////////////////2
 mysql> select EMPNAME,SAL+coalesce(comm,0)
     -> as Total_salary
     -> from employee;
@@ -95,6 +67,8 @@ mysql> select EMPNAME,SAL+coalesce(comm,0)
 +---------+--------------+
 13 rows in set (0.01 sec)
 
+
+///////////////////////////////////////3
 mysql> select EMPNAME,SAL*1.2
     -> from employee
     -> where JOB='Manager';
@@ -107,41 +81,8 @@ mysql> select EMPNAME,SAL*1.2
 +---------+---------+
 3 rows in set (0.08 sec)
 
-mysql> select CONCAT('Mr.',' ',EMPNAME,''s','total earning is',' ',sal+coalesce(comm,0))
-    '> from employee;
-    '> ';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '','total earning is',' ',sal+coalesce(comm,0))
-from employee;
-'' at line 1
-mysql> select CONCAT('Mr.',' ',EMPNAME,' ','total earning is',' ',sal+coalesce(comm,0))
-    -> from employee;
-+---------------------------------------------------------------------------+
-| CONCAT('Mr.',' ',EMPNAME,' ','total earning is',' ',sal+coalesce(comm,0)) |
-+---------------------------------------------------------------------------+
-| Mr. Smith total earning is 1000                                           |
-| Mr. Allen total earning is 1900                                           |
-| Mr. Ward total earning is 1750                                            |
-| Mr. Jones total earning is 2975                                           |
-| Mr. Marti total earning is 2650                                           |
-| Mr. Blake total earning is 2850                                           |
-| Mr. Clark total earning is 2450                                           |
-| Mr. Wong total earning is 3000                                            |
-| Mr. King total earning is 5000                                            |
-| Mr. Adam total earning is 1100                                            |
-| Mr. James total earning is 950                                            |
-| Mr. Ford total earning is 3000                                            |
-| Mr. Mile total earning is 1300                                            |
-+---------------------------------------------------------------------------+
-13 rows in set (0.01 sec)
 
-mysql> select CONCAT('Mr.',' ',EMPNAME,''s','total earning is',' ',sal+coalesce(comm,0)) as deatils
-    '> from employee;
-    '> ;
-    '> ';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '','total earning is',' ',sal+coalesce(comm,0)) as deatils
-from employee;
-;
-'' at line 1
+/////////////////////////////////////////////////////////4
 mysql> select CONCAT('Mr.',' ',EMPNAME,'`s','total earning is',' ',sal+coalesce(comm,0)) as deatils
     -> from employee;
 +----------------------------------+
@@ -163,10 +104,8 @@ mysql> select CONCAT('Mr.',' ',EMPNAME,'`s','total earning is',' ',sal+coalesce(
 +----------------------------------+
 13 rows in set (0.00 sec)
 
-mysql> select 'Today's date is' || to_char(sysdate);
-    '> ';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'date is' || to_char(sysdate);
-'' at line 1
+
+//////////////////////////////////////////////5
 mysql> select CONCAT('Todays date is:',' ',curdate())as todays_date;
 +----------------------------+
 | todays_date                |
@@ -175,37 +114,12 @@ mysql> select CONCAT('Todays date is:',' ',curdate())as todays_date;
 +----------------------------+
 1 row in set (0.00 sec)
 
-mysql> select CONCAT('Todays date is:',' ',date())as todays_date;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '))as todays_date' at line 1
-mysql> select CONCAT('Todays date is:',' ',datetime())as todays_date;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '())as todays_date' at line 1
-mysql> select CONCAT('Todays date is:',' ',datetime)as todays_date;
-ERROR 1054 (42S22): Unknown column 'datetime' in 'field list'
-mysql> select max(SAL),min(SAL)
-    -> ;
-ERROR 1054 (42S22): Unknown column 'SAL' in 'field list'
-mysql> select max(SAL) as maximum_salary,min(SAL) as minimum_salary
-    -> from employee
-    -> group by EMPNO;
-+----------------+----------------+
-| maximum_salary | minimum_salary |
-+----------------+----------------+
-|           1000 |           1000 |
-|           1600 |           1600 |
-|           1250 |           1250 |
-|           2975 |           2975 |
-|           1250 |           1250 |
-|           2850 |           2850 |
-|           2450 |           2450 |
-|           3000 |           3000 |
-|           5000 |           5000 |
-|           1100 |           1100 |
-|            950 |            950 |
-|           3000 |           3000 |
-|           1300 |           1300 |
-+----------------+----------------+
-13 rows in set (0.00 sec)
 
+
+
+
+
+//////////////////////////////////////////////////////////6
 mysql> select max(SAL) as maximum_salary,min(SAL) as minimum_salary
     -> from employee
     -> group by JOB;
@@ -220,14 +134,9 @@ mysql> select max(SAL) as maximum_salary,min(SAL) as minimum_salary
 +----------------+----------------+
 5 rows in set (0.00 sec)
 
-mysql> select * from
-    -> employee join department on employee.DEPTNO=department.DEPTNO
-    -> order by HIREDATE ase;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ase' at line 3
-mysql> employee join department on employee.DEPTNO=department.DEPTNO
-    -> order by HIREDATE asc;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee join department on employee.DEPTNO=department.DEPTNO
-order by HIREDATE ' at line 1
+
+
+/////////////////////////////////////////////////////
 mysql> select * from
     -> employee join department on employee.DEPTNO=department.DEPTNO
     -> order by HIREDATE asc;
@@ -250,16 +159,11 @@ mysql> select * from
 +-------+---------+-----------+------+------------+------+------+--------+--------+----------+---------+
 13 rows in set (0.02 sec)
 
-mysql> select min(SAL) as minimum,max(SAL) as Maximum,avg(SAL) as Average, sum(SAL) as Total Salary
-    -> from employee
-    -> e join department d on e.DEPTNO=d.DEPTNO
-    -> group by d.DNAME
-    -> order by d.DNAME;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Salary
-from employee
-e join department d on e.DEPTNO=d.DEPTNO
-group by d.DNAME
-' at line 1
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
 mysql> select min(SAL) as minimum,max(SAL) as Maximum,avg(SAL) as Average,sum(SAL) as Total_Salary
     -> from employee
     -> e join department d on e.DEPTNO=d.DEPTNO
@@ -274,18 +178,10 @@ mysql> select min(SAL) as minimum,max(SAL) as Maximum,avg(SAL) as Average,sum(SA
 +---------+---------+-----------+--------------+
 3 rows in set (0.01 sec)
 
-mysql> select d.DNAME min(SAL) as minimum,max(SAL) as Maximum,avg(SAL) as Average, sum(SAL) as Total Salary
-    -> e join department d on e.DEPTNO=d.DEPTNO
-    -> group by d.DNAME
-    -> order by d.DNAME;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'min(SAL) as minimum,max(SAL) as Maximum,avg(SAL) as Average, sum(SAL) as Total S' at line 1
-mysql> select  d.DNAME,min(SAL) as minimum,max(SAL) as Maximum,avg(SAL) as Average,sum(SAL) as Total_Salary
-    -> e join department d on e.DEPTNO=d.DEPTNO
-    -> group by d.DNAME
-    -> order by d.DNAME;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'e join department d on e.DEPTNO=d.DEPTNO
-group by d.DNAME
-order by d.DNAME' at line 2
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////6
 mysql> select d.DNAME as department_name, min(SAL) as minimum,max(SAL) as Maximum,avg(SAL) as Average, sum(SAL) as Total_Salary
     -> from employee
     -> e join department d on e.DEPTNO=d.DEPTNO
@@ -300,38 +196,12 @@ mysql> select d.DNAME as department_name, min(SAL) as minimum,max(SAL) as Maximu
 +-----------------+---------+---------+-----------+--------------+
 3 rows in set (0.00 sec)
 
-mysql> select d.DNAME,count(*)
-    -> as c
-    -> group by d.DNAME;
-ERROR 1109 (42S02): Unknown table 'd' in field list
-mysql>
-Enter password: ********
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 8
-Server version: 8.0.33 MySQL Community Server - GPL
 
-Copyright (c) 2000, 2023, Oracle and/or its affiliates.
 
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
 
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-mysql> use aecitdb;
-Database changed
-mysql> select d.DNAME,count(*)
-    -> as number_of_employee
-    -> from employee e join department d on e.DEPTNO=d.DEPTNO
-    -> group by d.DNAME
-    -> where number_of_employee >=4;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where number_of_employee >=4' at line 5
-mysql> select d.DNAME,count(*)
-    -> as number
-    -> from employee e inner join department d on e.DEPTNO=d.DEPTNO
-    -> group by d.DNAME
-    -> where number>=4;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where number>=4' at line 5
+
+///////////////////////////////////////////////////////////////////9
 mysql> select d.DNAME,count(*)
     -> from employee e inner join department d on e.DEPTNO=d.DEPTNO
     -> group by d.DNAME
@@ -344,6 +214,9 @@ mysql> select d.DNAME,count(*)
 +----------+----------+
 2 rows in set (0.18 sec)
 
+
+
+//////////////////////////////////////////////////////////////////////////
 mysql> select d.DNAME,count(*)
     -> from employee e inner join department d on e.DEPTNO=d.DEPTNO
     -> group by d.DNAME
@@ -357,60 +230,9 @@ mysql> select d.DNAME,count(*)
 +----------+----------+
 3 rows in set (0.00 sec)
 
-mysql> select EMPNAME
-    -> from employee
-    -> where SAL>avg(SAL)
-    -> having length(EMPNAME)=5;
-ERROR 1111 (HY000): Invalid use of group function
-mysql> select EMPNAME
-    -> from employee
-    -> where SAL>avg(SAL)
-    -> group by EMPNAME
-    -> having length(EMPNAME)=5;
-ERROR 1111 (HY000): Invalid use of group function
-mysql> select EMPNAME
-    -> from employee
-    -> where length(EMPNAME)=5
-    -> group by EMPNAME
-    -> having SAL>avg(SAL);
-ERROR 1054 (42S22): Unknown column 'SAL' in 'having clause'
-mysql> select e.EMPNAME
-    -> from employee
-    -> e
-    -> where length(e.EMPNAME)=5
-    -> group by e.EMPNAME
-    -> having e.SAL >(select avg(e.SAL) from employee);
-ERROR 1054 (42S22): Unknown column 'e.SAL' in 'having clause'
-mysql> select e.EMPNAME
-    -> from employee
-    -> e
-    -> where length(e.EMPNAME)=5
-    -> group by e.EMPNAME
-    -> having e.SAL >(select avg(SAL) from employee);
-ERROR 1054 (42S22): Unknown column 'e.SAL' in 'having clause'
-mysql> select e.EMPNAME
-    -> from employee
-    -> e
-    -> where length(e.EMPNAME)=5
-    -> group by e.EMPNAME
-    -> having SAL >(select avg(SAL) from employee);
-ERROR 1054 (42S22): Unknown column 'SAL' in 'having clause'
-mysql> select EMPNAME
-    -> from employee
-    -> where (select ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
-mysql> select * from
-    -> employee
-    -> where DNAME in( select DNAME from department where DNAME='SALES' or DNAME='HRD');
-ERROR 1054 (42S22): Unknown column 'DNAME' in 'IN/ALL/ANY subquery'
-mysql> select * from
-    -> employee
-    -> where deptname in( select deptname from department where deptname='SALES' or deptname='HRD');
-ERROR 1054 (42S22): Unknown column 'deptname' in 'IN/ALL/ANY subquery'
-mysql> select LOC
-    -> from employee
-    -> where EMPNAME='Wong';
-ERROR 1054 (42S22): Unknown column 'LOC' in 'field list'
+
+
+////////////////////////////////////////////////////////////////////////////12
 mysql> select LOC
     -> from department
     -> join employee on department.DEPTNO=employee.DEPTNO
@@ -453,30 +275,10 @@ mysql> select * from department;
 +--------+-----------+---------+
 4 rows in set (0.00 sec)
 
-mysql> delete from department where DEPTNO=20;
-ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`aecitdb`.`employee`, CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`DEPTNO`) REFERENCES `department` (`DEPTNO`))
-mysql> alter table employee
-    -> foreign key(DEPTNO) references department(DEPTNO) on delete cascade;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'foreign key(DEPTNO) references department(DEPTNO) on delete cascade' at line 2
-mysql> alter table employee
-    ->  update foreign key(DEPTNO) references department(DEPTNO) on delete cascade;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update foreign key(DEPTNO) references department(DEPTNO) on delete cascade' at line 2
-mysql> alter table employee drop foreign key(DEPTNO);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(DEPTNO)' at line 1
-mysql> alter table employee drop foreign key;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
-mysql> alter table employee drop foreign key deptno;
-ERROR 1091 (42000): Can't DROP 'deptno'; check that column/key exists
-mysql> select * from
-    -> employee
-    -> group by SAL
-    -> order by SAL desc limit 3,1;
-ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'aecitdb.employee.EMPNO' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
-mysql> select * from
-    -> employee
-    -> group by SAL
-    -> order by SAL desc limit 1,1;
-ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'aecitdb.employee.EMPNO' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
 mysql> select * from
     -> employee
     -> order by SAL desc limit 3,1;
@@ -487,6 +289,9 @@ mysql> select * from
 +-------+---------+---------+------+------------+------+------+--------+
 1 row in set (0.01 sec)
 
+
+
+//////////////////////////////////////////////////////////////////////////////14
 mysql> select * from
     -> employee
     -> order by SAL desc limit 1,3;
@@ -499,32 +304,8 @@ mysql> select * from
 +-------+---------+---------+------+------------+------+------+--------+
 3 rows in set (0.00 sec)
 
-mysql> delete from department where
-    -> DNAME='RESEARCH';
-ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`aecitdb`.`employee`, CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`DEPTNO`) REFERENCES `department` (`DEPTNO`))
-mysql> select e.EMPNAME as employee_name,
-    -> m.EMPNAME
-    -> as Manager_name
-    -> from employee e join employee m on e.EMPNO=m.EMPNO;
-+---------------+--------------+
-| employee_name | Manager_name |
-+---------------+--------------+
-| Smith         | Smith        |
-| Allen         | Allen        |
-| Ward          | Ward         |
-| Jones         | Jones        |
-| Marti         | Marti        |
-| Blake         | Blake        |
-| Clark         | Clark        |
-| Wong          | Wong         |
-| King          | King         |
-| Adam          | Adam         |
-| James         | James        |
-| Ford          | Ford         |
-| Mile          | Mile         |
-+---------------+--------------+
-13 rows in set (0.00 sec)
 
+/////////////////////////////////////////////////////////////////////////15
 mysql> select e.EMPNAME as employee_name,
     -> m.EMPNAME
     -> as Manager_name
@@ -548,4 +329,3 @@ mysql> select e.EMPNAME as employee_name,
 +---------------+--------------+
 13 rows in set (0.01 sec)
 
-mysql>

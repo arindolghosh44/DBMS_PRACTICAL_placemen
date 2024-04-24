@@ -1,22 +1,13 @@
-Enter password: ********
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 48
-Server version: 8.0.33 MySQL Community Server - GPL
-
-Copyright (c) 2000, 2023, Oracle and/or its affiliates.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
+//1 create database 
 mysql> create database aecitdb;
 Query OK, 1 row affected (0.02 sec)
 
+
+//2
 mysql> create database tempdb;
 Query OK, 1 row affected (0.01 sec)
 
+///////////////////////////////////////////////
 mysql> show databases;
 +--------------------+
 | Database           |
@@ -69,13 +60,13 @@ mysql> show databases;
 +--------------------+
 45 rows in set (0.08 sec)
 
-mysql> delete database tempdb;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'database tempdb' at line 1
-mysql> drop tempdb;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tempdb' at line 1
+//3 delete the database tempdb
 mysql> drop database tempdb;
 Query OK, 0 rows affected (0.04 sec)
 
+
+
+///////////////////////////////////////////////////////////////////////
 mysql> show databases;
 +--------------------+
 | Database           |
@@ -127,21 +118,36 @@ mysql> show databases;
 +--------------------+
 44 rows in set (0.00 sec)
 
-mysql> use database aecitdb;
-ERROR 1049 (42000): Unknown database 'database'
+
+
+
+
+
+
+
+
+//4
 mysql> use aecitdb;
 Database changed
-mysql> create table TempPerson;
-ERROR 4028 (HY000): A table must have at least one visible column.
-mysql> create table TempPerson values(pid int,FirstName varchar(25),LastName varchar(25),City varchar(25),DOB varchar(25),Salary int);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(pid int,FirstName varchar(25),LastName varchar(25),City varchar(25),DOB varchar' at line 1
+
+
+
+
+//5
 mysql> create table TempPerson (pid int,FirstName varchar(25),LastName varchar(25),City varchar(25),DOB varchar(25),Salary int);
 Query OK, 0 rows affected (0.06 sec)
 
-mysql> show table;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+
+
+
+
+///////////////////////////////////////////////////
 mysql> use aecitdb;
 Database changed
+
+
+
+//////////////////////////////////////////////////////////
 mysql> show tables;
 +-------------------+
 | Tables_in_aecitdb |
@@ -150,11 +156,16 @@ mysql> show tables;
 +-------------------+
 1 row in set (0.01 sec)
 
+
+
+////////////////////////////////////////////////////////////////////
 mysql> use aecitdb;
 Database changed
 mysql> create table Person (pid int,FirstName varchar(45),LastName varchar(45),City varchar(45),DOB DATETIME,Salary DECIMAL);
 Query OK, 0 rows affected (0.02 sec)
 
+
+///////////////////////////////////////////////////////////////////////
 mysql> use aecitdb;
 Database changed
 mysql> show tables;
@@ -166,9 +177,14 @@ mysql> show tables;
 +-------------------+
 2 rows in set (0.00 sec)
 
+
+////////////////////////////////////////////////////////////////////////////////
 mysql> select * from person;
 Empty set (0.00 sec)
 
+
+
+////////////////////////////////////////////////////////////////////////////////////
 mysql> desc person;
 +-----------+---------------+------+-----+---------+-------+
 | Field     | Type          | Null | Key | Default | Extra |
@@ -182,8 +198,8 @@ mysql> desc person;
 +-----------+---------------+------+-----+---------+-------+
 6 rows in set (0.01 sec)
 
-mysql> desc temperson;
-ERROR 1146 (42S02): Table 'aecitdb.temperson' doesn't exist
+
+////////////////////////////////////////////////////////////////////////
 mysql> desc tempperson;
 +-----------+-------------+------+-----+---------+-------+
 | Field     | Type        | Null | Key | Default | Extra |
@@ -196,50 +212,11 @@ mysql> desc tempperson;
 | Salary    | int         | YES  |     | NULL    |       |
 +-----------+-------------+------+-----+---------+-------+
 6 rows in set (0.00 sec)
-
-mysql> insert into person values(&pid,'&FirstName','&LastName','&City',&DOB,&Salary);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '&pid,'&FirstName','&LastName','&City',&DOB,&Salary)' at line 1
-mysql> insert into person (pid,FirstName,LastName,City,DOB,Salary) values (1,'sunit,'fang','asum','12/08/1978',900000.08);
-    '>
-    '>
-    '>
-    '>
-    '> ;
-    '> insert into person (pid,FirstName,LastName,City,DOB,Salary) values (1,'sunit,'fang','asum','12/08/1978',900000.08);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fang','asum','12/08/1978',900000.08);
+   
 
 
 
-
-;
-insert into person (pid,FirstName,La' at line 1
-mysql> insert into person (pid,FirstName,LastName,City,DOB,Salary) values (1,'sunit,'fang','asum','12/08/1978',900000.08);
-    '>
-    '>
-    '>
-    '>
-    '>
-    '>
-    '>
-    '>
-    '> ;
-    '> ;
-    '> insert into person (pid,FirstName,LastName,City,DOB,Salary) values (1,'sunit,'fang','asum','12/08/1978',900000.08);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fang','asum','12/08/1978',900000.08);
-
-
-
-
-
-
-
-
-;
-;
-insert into person (pid,FirstN' at line 1
-mysql> drop table person;
-Query OK, 0 rows affected (0.02 sec)
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 mysql> use aecitdb;
 Database changed
 mysql> show databases;
@@ -293,57 +270,7 @@ mysql> show databases;
 +--------------------+
 44 rows in set (0.00 sec)
 
-mysql> show databases;
-+--------------------+
-| Database           |
-+--------------------+
-| aecitdb            |
-| book               |
-| db                 |
-| dbms               |
-| ebook-app          |
-| eco                |
-| ecommerce          |
-| ecommerce_youtube  |
-| emp                |
-| enotes2            |
-| ert                |
-| ghor               |
-| hospital_2         |
-| information_schema |
-| joins              |
-| mydata             |
-| mydb               |
-| mysql              |
-| new_assignment     |
-| new_schema         |
-| new_schema262626   |
-| performance_schema |
-| phonebook          |
-| product            |
-| projectdb          |
-| spring_jdbc        |
-| spring_jdbc1       |
-| sss                |
-| sss1               |
-| student            |
-| student22222       |
-| student4444        |
-| sys                |
-| todo               |
-| todo_app           |
-| upgrade            |
-| upload_image       |
-| user1              |
-| user2              |
-| user3              |
-| user4              |
-| user5              |
-| user6              |
-| you                |
-+--------------------+
-44 rows in set (0.00 sec)
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 mysql> use aecitdb;
 Database changed
 mysql> show tables;
@@ -354,8 +281,7 @@ mysql> show tables;
 +-------------------+
 1 row in set (0.00 sec)
 
-mysql> create table person (pid int primary key,FirstName varchar(56) not null,LastName varchar(45) not null, City varchar(45) not null,DOB DATETIME,Salary DECIMAL notnull);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'notnull)' at line 1
+/////////////////////////////////////////////////////////////////////////////////////////////////
 mysql> create table person (pid int primary key,FirstName varchar(56) not null,LastName varchar(45) not null, City varchar(45) not null,DOB DATETIME,Salary DECIMAL not null);
 Query OK, 0 rows affected (0.03 sec)
 
@@ -372,50 +298,25 @@ mysql> desc person;
 +-----------+---------------+------+-----+---------+-------+
 6 rows in set (0.00 sec)
 
-mysql> insert into person (pid,FirstName,LastName,City,DOB,Salary) values (1,'sunit,'fang','asum','12/08/1978',900000.08);
-    '> insert into person (pid,FirstName,LastName,City,DOB,Salary) values (1,'sunit,'fang','asum','12/08/1978',900000.08);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fang','asum','12/08/1978',900000.08);
-insert into person (pid,FirstName,LastName' at line 1
-mysql> insert into person (pid,FirstName,LastName,City,DOB,Salary) values (1,'sunit,'fang','asum','12/08/1978','900000.08');
-    '> insert into person (pid,FirstName,LastName,City,DOB,Salary) values (1,'sunit,'fang','asum','12/08/1978','900000.08');
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fang','asum','12/08/1978','900000.08');
-insert into person (pid,FirstName,LastNa' at line 1
-mysql> insert into person  values (1,'sunit,'fang','asum','12/08/1978',900000.08);
-    '> insert into person  values (1,'sunit,'fang','asum','12/08/1978',900000.08);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fang','asum','12/08/1978',900000.08);
-insert into person  values (1,'sunit,'fang' at line 1
-mysql> ^SYou have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fang','asum','12/08/1978',900000.08);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '‼You have an error in your SQL syntax' at line 1
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'the manual that corresponds to your MySQL server version for the right syntax to' at line 1
-mysql> insert into person  values (1,'sunit,'fang' at line 1
-    '>
-    '>
-    '>
-    '>
-    '>
-    '> insert into person  values (1,'sunit,'fang' at line 1
-    -> ;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fang' at line 1
 
 
 
-
-
-insert into person  values (1,'sunit,'fang' at line 1' at line 1
+//////////////////////////////////////////////////
 mysql> insert into person
     -> (pid,FirstName,LastName,City,DOB,Salary)
     -> values
     -> ('101','Amal','Biswas','Asansol','12/08/1972','90000.89'),
     -> ('102','Tamal','Choudury','Kolkata','15/02/1992','40000.58'),
     -> ('103','Rita','Sen','Durgapur','12/08/1986','60000.36');
-ERROR 1292 (22007): Incorrect datetime value: '12/08/1972' for column 'DOB' at row 1
-mysql> alter table person update DOB Date;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update DOB Date' at line 1
+
+////////////////////////////////////////////////////////////////
 mysql> alter table person
     -> change DOB DOB DATE;
 Query OK, 0 rows affected (0.05 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
+
+///////////////////////////////////////////////////////////////////////////
 mysql> desc person;
 +-----------+---------------+------+-----+---------+-------+
 | Field     | Type          | Null | Key | Default | Extra |
@@ -429,13 +330,8 @@ mysql> desc person;
 +-----------+---------------+------+-----+---------+-------+
 6 rows in set (0.00 sec)
 
-mysql> insert into person
-    -> (pid,FirstName,LastName,City,DOB,Salary)
-    -> values
-    -> ('101','Amal','Biswas','Asansol','12/08/1972','90000.89'),
-    -> ('102','Tamal','Choudury','Kolkata','15/02/1992','40000.58'),
-    -> ('103','Rita','Sen','Durgapur','12/08/1986','60000.36');
-ERROR 1292 (22007): Incorrect date value: '12/08/1972' for column 'DOB' at row 1
+
+/////////////////////////////////////////////////////////////////////////////////////////////6
 mysql> insert into person
     -> values
     -> ('101','Amal','Biswas','Asansol','1972/08/12','90000.89'),
@@ -444,6 +340,8 @@ mysql> insert into person
 Query OK, 3 rows affected, 6 warnings (0.01 sec)
 Records: 3  Duplicates: 0  Warnings: 6
 
+
+////7
 mysql> select * from person;
 +-----+-----------+----------+----------+------------+--------+
 | pid | FirstName | LastName | City     | DOB        | Salary |
@@ -454,10 +352,16 @@ mysql> select * from person;
 +-----+-----------+----------+----------+------------+--------+
 3 rows in set (0.00 sec)
 
+
+//////////////////////////////////////////9
 mysql> create table DummyPerson as select * from person;
 Query OK, 3 rows affected (0.03 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
 mysql> use aecitdb;
 Database changed
 mysql> show tables;
@@ -470,6 +374,9 @@ mysql> show tables;
 +-------------------+
 3 rows in set (0.00 sec)
 
+
+
+///////////////////////////10
 mysql> select * from dummyperson;
 +-----+-----------+----------+----------+------------+--------+
 | pid | FirstName | LastName | City     | DOB        | Salary |
@@ -480,11 +387,14 @@ mysql> select * from dummyperson;
 +-----+-----------+----------+----------+------------+--------+
 3 rows in set (0.00 sec)
 
-mysql> drop dummyperson;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dummyperson' at line 1
+///////////////////////////////////////////12
 mysql> drop  table dummyperson;
 Query OK, 0 rows affected (0.01 sec)
 
+
+
+
+///////////////////////////////////////////////////
 mysql> show tables;
 +-------------------+
 | Tables_in_aecitdb |
@@ -494,4 +404,3 @@ mysql> show tables;
 +-------------------+
 2 rows in set (0.00 sec)
 
-mysql>
